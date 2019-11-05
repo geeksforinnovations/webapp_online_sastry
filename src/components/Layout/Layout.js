@@ -11,6 +11,7 @@ import Sidebar from "../Sidebar";
 
 // pages
 import Dashboard from "../../pages/dashboard";
+import Pujas from "../../pages/pujas"
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -34,6 +35,7 @@ function Layout(props) {
           <div className={classes.fakeToolbar} />
           <Switch>
             <Route path="/app/dashboard" component={Dashboard} />
+            <Route path="/app/pujas" component={Pujas} />
           </Switch>
         </div>
       </>
