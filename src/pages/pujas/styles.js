@@ -16,7 +16,14 @@ export default makeStyles(theme => ({
   textField: {
     // margin:'0 10px',
     // padding:'0 10px',
-    // border:'1px solid red'
+     //border:'1px solid yellow',
+    width:'100%'
+  },
+  paper:{
+    padding:'0 10px'
+  },
+  fileInput:{
+    display:'none'
   }
 
 }));
