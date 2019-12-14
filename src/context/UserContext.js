@@ -67,14 +67,14 @@ async function loginUser(
 
   if (!!login && !!password) {
     try {
-      const result = await Auth.signIn(login, password);
+      const user = await Auth.signIn(login, password);
       //const result = await Auth.completeNewPassword(user,'manikumar')
-      console.log('login user data', result)
+      console.log('login user data', user)
      // alert("user logged in");
       dispatch({ type: "LOGIN_SUCCESS" });
       setError(null);
       setIsLoading(false);
-      history.push("/app/dashboard");
+      history.push("/app/pujas");
     } catch (error) {
       console.error("err is", error);
       dispatch({ type: "LOGIN_FAILURE" });

@@ -33,7 +33,7 @@ function Login(props) {
   var [error, setError] = useState(null);
   var [activeTabId, setActiveTabId] = useState(0);
   var [nameValue, setNameValue] = useState("");
-  var [loginValue, setLoginValue] = useState("mani123");
+  var [loginValue, setLoginValue] = useState("manikumarkv@gmail.com");
   var [passwordValue, setPasswordValue] = useState("manikumar");
 
   return (

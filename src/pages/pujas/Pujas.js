@@ -2,7 +2,9 @@ import React, { useState, useRef } from "react";
 import { Grid, TextField, Paper, Chip, Button } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import config from "../../config";
-import { Storage } from "aws-amplify";
+import { Storage, API } from "aws-amplify";
+import { PhotoPicker } from 'aws-amplify-react';
+import { useTheme } from "@material-ui/styles";
 // import { Link } from "react-router-dom";
 // import classnames from "classnames";
 
@@ -19,7 +21,13 @@ import PageTitle from "../../components/PageTitle";
 export default function Pujas() {
   const file = useRef(null);
   var [name, setName] = useState("");
+  let [price, setPrice] = useState('')
+  let [time, setTime] = useState('')
+  let [about, setAbout] = useState('')
+  let [insights, setInsights] = useState('')
+  let [pujaImage, uploadPujaImage] = useState('')
   const [isLoading, setIsLoading] = useState(false);
+  var theme = useTheme();
   const langueages = [
     { text: "Telugu", value: "te" },
     { text: "Hindi", value: "hi" },
@@ -28,16 +36,53 @@ export default function Pujas() {
   ];
   var classes = useStyles();
   async function s3Upload(file) {
+    debugger
     const filename = `${Date.now()}-${file.name}`;
-  
-    const stored = await Storage.vault.put(filename, file, {
+
+    const stored = await Storage.put(filename, file, {
       contentType: file.type
     });
-  
+
+    const getfile = await Storage.get(filename);
+    uploadPujaImage(getfile)
+    console.log('get', getfile)
+
     return stored.key;
   }
   function handleFileChange(event) {
     file.current = event.target.files[0];
+  }
+  async function createPuja() {
+    // const puja ={
+    //   name,
+    //   time,
+    //   price,
+    //   about,
+    //   insights
+    // }
+    const puja = {
+      name,
+      description: insights,
+      about,
+      timeInHrs: time,
+      requiredThings: '{}',
+      pujaType: 'Online',
+      type: 'Online',
+      cost: price
+    }
+    const requestData = {
+      body: puja
+    }
+
+    try {
+      const x = await API.post('pujas', '/pujas', requestData)
+    } catch (error) {
+      console.log('err', error)
+      throw error
+
+    }
+
+
   }
   async function handleSubmit(event) {
     //event.preventDefault();
@@ -45,19 +90,19 @@ export default function Pujas() {
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
         `Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE /
-          1000000} MB.`
+        1000000} MB.`
       );
       return;
     }
     try {
-      const s3Result=  await s3Upload(file.current)
+      const s3Result = await s3Upload(file.current)
       console.log('s3 result is', s3Result)
-       setIsLoading(true);
+      setIsLoading(true);
     } catch (error) {
       console.error('er'.error)
       alert('err')
     }
-  
+
   }
   return (
     <>
@@ -94,8 +139,8 @@ export default function Pujas() {
                   input: classes.textField
                 }
               }}
-              value={name}
-              onChange={e => setName(e.target.value)}
+              value={price}
+              onChange={e => setPrice(e.target.value)}
               margin="normal"
               placeholder="Price"
               label="Puja Price"
@@ -107,9 +152,11 @@ export default function Pujas() {
             <TextField
               fullWidth
               margin="normal"
+              value={time}
+              onChange={e => setTime(e.target.value)}
               placeholder="Time"
               type="text"
-              label="time taking for puja"
+              label="Time taking for puja"
               variant="outlined"
             />
           </Grid>
@@ -123,9 +170,9 @@ export default function Pujas() {
                   input: classes.textField
                 }
               }}
-              //value={name}
+              value={about}
               multiline
-              //onChange={e => setName(e.target.value)}
+              onChange={e => setAbout(e.target.value)}
               margin="normal"
               placeholder="About Puja"
               type="text"
@@ -144,9 +191,9 @@ export default function Pujas() {
                   input: classes.textField
                 }
               }}
-              //value={name}
+              value={insights}
               multiline
-              //onChange={e => setName(e.target.value)}
+              onChange={e => setInsights(e.target.value)}
               margin="normal"
               placeholder="Key Insights"
               type="text"
@@ -156,7 +203,7 @@ export default function Pujas() {
           </Grid>
           <Grid item xs={12}>
             <Autocomplete
-              multiple              
+              multiple
               options={langueages}
               getOptionLabel={option => option.text}
               //defaultValue={[top100Films[6], top100Films[13]]}
@@ -185,30 +232,22 @@ export default function Pujas() {
               )}
             />
           </Grid>
-          <Grid item md={4}>
-            <input
-              accept="image/*"
-              className={classes.fileInput}
-              id="contained-button-file"
-              onChange={handleFileChange}
-              type="file"
-            />
-            <label htmlFor="contained-button-file">
-              <Button
-                variant="contained"
-                component="span"
-                className={classes.button}
-              >
-                Upload
-              </Button>
-            </label>
+
+          <Grid item md={12}>
+            <PhotoPicker
+              theme={theme}
+              preview="hidden"
+              title="Puja Photo"
+              headerHint="Choose a photo to display for Puja"
+              headerText="Puja Photos"
+              onPick={data => s3Upload(data.file)} />
           </Grid>
           <Grid item md={12}>
             <Button
               variant="contained"
               component="span"
               className={classes.button}
-              onClick={handleSubmit}
+              onClick={createPuja}
             >
               Create
             </Button>

@@ -1,17 +1,17 @@
 export default {
     s3: {
       REGION: "us-east-1",
-      BUCKET: "serverless-online-sastry1-dev-attachmentsbucket-10n34s2yglpqf"
+      BUCKET: "sls-online-test-public"
     },
     apiGateway: {
       REGION: "us-east-1",
-      URL: "https://e93ownwzgl.execute-api.us-east-1.amazonaws.com/dev"
+      URL: "https://czla69q7ql.execute-api.us-east-1.amazonaws.com/dev"
     },
     cognito: {
       REGION: "us-east-1",
-      USER_POOL_ID: "us-east-1_zBrNlhRBj",
-      APP_CLIENT_ID: "3jauhb0h6nd26m5h5b5mdilo5i",
-      IDENTITY_POOL_ID: "us-east-1:8f49db36-1df1-478e-9961-8fedcd0a9358"
+      USER_POOL_ID: "us-east-1_coVPXKLPD",
+      APP_CLIENT_ID: "4roh06r403pci87qfo0j6ipuks",
+      IDENTITY_POOL_ID: "us-east-1:f59389b7-b99d-4da9-95b8-185eb0353608"
     },
     MAX_ATTACHMENT_SIZE:1000000
   };
