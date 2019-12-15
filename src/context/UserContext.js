@@ -74,7 +74,7 @@ async function loginUser(
       dispatch({ type: "LOGIN_SUCCESS" });
       setError(null);
       setIsLoading(false);
-      history.push("/app/pujas");
+      history.push("/app/pujas/new");
     } catch (error) {
       console.error("err is", error);
       dispatch({ type: "LOGIN_FAILURE" });

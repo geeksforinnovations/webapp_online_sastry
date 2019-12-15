@@ -43,6 +43,12 @@ const structure = [
     link: "/app/pujas",
     icon: <TypographyIcon />,
   },
+  {
+    id: 1,
+    label: "New Pujas",
+    link: "/app/pujas/new",
+    icon: <TypographyIcon />,
+  },
   // { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
   // {
   //   id: 3,
