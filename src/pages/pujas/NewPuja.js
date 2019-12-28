@@ -24,12 +24,13 @@ export default function NewPuja() {
   let [insights, setInsights] = useState('')
   let [pujaImage, uploadPujaImage] = useState('')
   const [isLoading, setIsLoading] = useState(false);
+  let [selectedLanguages, updateSelectedLanguages] = useState([])
   var theme = useTheme();
   const langueages = [
-    { text: "Telugu", value: "te" },
-    { text: "Hindi", value: "hi" },
-    { text: "Marati", value: "mt" },
-    { text: "Tamil", value: "ta" }
+    { text: "Telugu", value: "te", id:1 },
+    { text: "Hindi", value: "hi" ,id:2},
+    { text: "Marati", value: "mt",id:3 },
+    { text: "Tamil", value: "ta", id:14},
   ];
   var classes = useStyles();
   async function s3Upload(file) {
@@ -62,10 +63,11 @@ export default function NewPuja() {
       description: insights,
       about,
       timeInHrs: time,
-      requiredThings: '{}',
+      requiredThings: [],
       pujaType: 'Online',
       type: 'Online',
-      cost: price
+      cost: price,
+      pujaLanguages : selectedLanguages.map(lang=>lang.id)
     }
     const requestData = {
       body: puja
@@ -80,6 +82,12 @@ export default function NewPuja() {
     }
 
 
+  }
+  function onSlectLang(event, selectedVal){
+    debugger
+    //const langs = selectedLanguages;
+    //langs.push(selectedVal);
+    updateSelectedLanguages(selectedVal)
   }
   async function handleSubmit(event) {
     //event.preventDefault();
@@ -203,6 +211,8 @@ export default function NewPuja() {
               multiple
               options={langueages}
               getOptionLabel={option => option.text}
+              value={selectedLanguages}
+              onChange={onSlectLang}
               //defaultValue={[top100Films[6], top100Films[13]]}
               renderTags={(value, { className, onDelete }) =>
                 value.map((option, index) => (
