@@ -33,15 +33,15 @@ function Login(props) {
   var [error, setError] = useState(null);
   var [activeTabId, setActiveTabId] = useState(0);
   var [nameValue, setNameValue] = useState("");
-  var [loginValue, setLoginValue] = useState("manikumarkv@gmail.com");
-  var [passwordValue, setPasswordValue] = useState("manikumar");
+  var [loginValue, setLoginValue] = useState("");
+  var [passwordValue, setPasswordValue] = useState("");
 
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
         {/* <img src={logo} alt="logo" className={classes.logotypeImage} /> */}
-        <Typography className={classes.logotypeText}>Material Admin</Typography>
-      </div>
+        <Typography className={classes.logotypeText}>Online Pujari Services</Typography>
+    </div>
       <div className={classes.formContainer}>
         <div className={classes.form}>
           <Tabs
