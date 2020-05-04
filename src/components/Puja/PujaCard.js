@@ -3,12 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
-// import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-// import  Badge  from "@material-ui/core/Badge";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
-// import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    padding :"10px 0",
     "& > *": {
       margin: theme.spacing(1),
       width: "350px", //theme.spacing(16),
@@ -66,7 +63,7 @@ export default function PujaCard({
           variant="square"
           className={classes.large}
           alt="Remy Sharp"
-          src="https://picsum.photos/200"
+          src="https://picsum.photos/100"
         />
         <Typography variant="h6" gutterBottom> Time: 2Hrs Price: $200</Typography>
         
