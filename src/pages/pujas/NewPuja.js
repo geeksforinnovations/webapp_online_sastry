@@ -5,6 +5,16 @@ import config from "../../config";
 import { Storage, API } from "aws-amplify";
 import { PhotoPicker } from 'aws-amplify-react';
 import { useTheme } from "@material-ui/styles";
+// import 'moment'
+// import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+// import  moment  from "moment";
+// import DateFnsUtils from '@date-io/moment';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 // import { Link } from "react-router-dom";
 // import classnames from "classnames";
 
@@ -24,6 +34,11 @@ export default function NewPuja() {
   let [insights, setInsights] = useState('')
   let [pujaImage, uploadPujaImage] = useState('')
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
   var theme = useTheme();
   const langueages = [
     { text: "Telugu", value: "te" },
@@ -248,6 +263,37 @@ export default function NewPuja() {
             >
               Create
             </Button>
+          </Grid>
+          <Grid>
+            <MuiPickersUtilsProvider utils={DateFnsUtils} >
+              <Grid container justify="space-around">
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="Date picker inline"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+                
+                <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Date picker dialog"
+          format="MM/dd/yyyy"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+              </Grid>
+            </MuiPickersUtilsProvider>
           </Grid>
         </Grid>
       </Paper>
