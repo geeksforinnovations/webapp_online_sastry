@@ -7,6 +7,9 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import PujaCard from "../../components/Puja/PujaCard";
+import PujariCard from "../../components/Pujari/PujariCard";
+import BookPujaForm from "./PujaForm/BookPujaForm";
+import PaymentPage from "./Payment/PaymentPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +44,7 @@ function getSteps() {
   ];
 }
 
-function getPujas(pujas) {
+function getPujas(pujas, handleNext) {
   return (
     <div style={{display:'flex',flexWrap: "wrap", margin:"10px 0", justifyContent:'center'}}>
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10].map((num) => {
@@ -51,6 +54,7 @@ function getPujas(pujas) {
               id: "1",
               name: "hello",
             }}
+            onBook={handleNext}
           ></PujaCard>
         );
       })}
@@ -58,16 +62,34 @@ function getPujas(pujas) {
   );
 }
 
-function getStepContent(step) {
+function getPujaries(pujas, handleNext) {
+  return (
+    <div style={{display:'flex',flexWrap: "wrap", margin:"10px 0", justifyContent:'center'}}>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10].map((num) => {
+        return (
+          <PujariCard
+            pujari={{
+              id: "1",
+              name: "hello",
+            }}
+            onChoose={handleNext}
+          ></PujariCard>
+        );
+      })}
+    </div>
+  );
+}
+
+function getStepContent(step, handleNext) {
   switch (step) {
     case 0:
-      return <>{getPujas()}</>;
+      return <>{getPujas(null,handleNext)}</>;
     case 1:
-      return "What is an ad group anyways?";
+      return <>{getPujaries(null, handleNext)}</>;
     case 2:
-      return "This is the bit I really care about!";
+      return <BookPujaForm handleNext={handleNext}></BookPujaForm>;
     case 3:
-      return "This is the bit I really care about!";
+      return <PaymentPage></PaymentPage>;
     case 4:
       return "This is the bit I really care about!";
     case 5:
@@ -164,9 +186,7 @@ export default function BookPuja() {
           </div>
         ) : (
           <div>
-            <Typography className={classes.instructions}>
-              {getStepContent(activeStep)}
-            </Typography>
+              {getStepContent(activeStep, handleNext)}
             <div>
               <Button
                 disabled={activeStep === 0}

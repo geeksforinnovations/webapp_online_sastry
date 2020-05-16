@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,13 +49,12 @@ const useStyles = makeStyles((theme) => ({
     height: "100px",
   },
 }));
-export default function PujaCard({
-  puja: { id, name, state },
-  onArchiveTask,
-  onPinTask,
-  onBook
+export default function PujariCard({
+  pujari: { id, name, state },
+  onChoose
 }) {
   const classes = useStyles();
+  const [value, setValue] = React.useState(2);
   return (
     <div className={classes.root}>
       <Paper elevation={14}>
@@ -66,7 +67,17 @@ export default function PujaCard({
           alt="Remy Sharp"
           src="https://picsum.photos/100"
         />
-        <Typography variant="h6" gutterBottom> Time: 2Hrs Price: $200</Typography>
+        <Typography variant="h6" gutterBottom> Experience: 4 Yrs</Typography>
+        <Box component="fieldset" mb={3} borderColor="transparent">
+        <Typography component="legend">Controlled</Typography>
+        <Rating
+          name="simple-controlled"
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+        />
+      </Box>
         
         <div className={classes.chipsGroup}>
           <Chip label="Telugu" variant="outlined" />
@@ -90,8 +101,8 @@ export default function PujaCard({
           <Button size="large" color="primary" variant="outlined">
             See more
           </Button>
-          <Button onClick={onBook} size="large" color="primary" variant="outlined">
-            Book
+          <Button onClick={onChoose} size="large" color="primary" variant="outlined">
+            Select
           </Button>
         </div>
       </Paper>
@@ -99,11 +110,11 @@ export default function PujaCard({
   );
 }
 
-PujaCard.propTypes = {
+PujariCard.propTypes = {
   puja: PropTypes.object,
 };
 
-PujaCard.defaultValues = {
+PujariCard.defaultValues = {
   puja: {
     id: "1",
     name: "hello",
