@@ -67,9 +67,9 @@ async function loginUser(
 
   if (!!login && !!password) {
     try {
-      const user = await Auth.signIn(login, password);
+      //const user = await Auth.signIn(login, password);
       //const result = await Auth.completeNewPassword(user,'manikumar')
-      console.log('login user data', user)
+     // console.log('login user data', user)
      // alert("user logged in");
       dispatch({ type: "LOGIN_SUCCESS" });
       setError(null);

@@ -10,6 +10,7 @@ import Login from "../pages/login";
 
 // context
 import { useUserState } from "../context/UserContext";
+import BookPuja from "../pages/pujas/BookPuja";
 
 export default function App() {
   // global
@@ -18,6 +19,7 @@ export default function App() {
   return (
     <HashRouter>
       <Switch>
+      <PublicRoute path="/book" component={BookPuja} />
         <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
         <Route
           exact
