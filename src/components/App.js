@@ -19,7 +19,7 @@ export default function App() {
   return (
     <HashRouter>
       <Switch>
-      <PublicRoute path="/book" component={BookPuja} />
+      <PublicRoute exact path="/book" component={BookPuja} />
         <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
         <Route
           exact
