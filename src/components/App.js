@@ -19,7 +19,7 @@ export default function App() {
   return (
     <HashRouter>
       <Switch>
-      <PublicRoute exact path="/book" component={BookPuja} />
+        <PublicRoute exact path="/book" component={BookPuja} />
         <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
         <Route
           exact
@@ -28,7 +28,7 @@ export default function App() {
         />
         <PrivateRoute path="/app" component={Layout} />
         <PublicRoute path="/login" component={Login} />
-        <Route component={Error} />
+        <Route component={BookPuja} />
       </Switch>
     </HashRouter>
   );
@@ -43,15 +43,15 @@ export default function App() {
           isAuthenticated ? (
             React.createElement(component, props)
           ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: {
-                  from: props.location,
-                },
-              }}
-            />
-          )
+              <Redirect
+                to={{
+                  pathname: "/login",
+                  state: {
+                    from: props.location,
+                  },
+                }}
+              />
+            )
         }
       />
     );
@@ -69,8 +69,8 @@ export default function App() {
               }}
             />
           ) : (
-            React.createElement(component, props)
-          )
+              React.createElement(component, props)
+            )
         }
       />
     );
