@@ -17,8 +17,11 @@ import Amplify from 'aws-amplify';
 import config from './config';
 
 import store from "./store";
-
-
+import { loadStripe } from '@stripe/stripe-js';
+import {
+  Elements
+} from '@stripe/react-stripe-js';
+const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
 Amplify.configure({
   Auth: {
     mandatorySignIn: true,
@@ -54,7 +57,9 @@ ReactDOM.render(
       <UserProvider>
         <ThemeProvider theme={Themes.default}>
           <CssBaseline />
+          <Elements stripe={stripePromise}>
           <App />
+          </Elements>
         </ThemeProvider>
       </UserProvider>
     </LayoutProvider>
