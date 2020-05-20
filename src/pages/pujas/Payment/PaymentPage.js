@@ -49,8 +49,23 @@ const CheckoutForm = ({handleNext}) => {
       display: "flex",
       flexDirection: "column"
     }} onSubmit={handleSubmit}>
-      <CardElement options={CARD_OPTIONS} />
+      <TextField
+                                //className={classes.field}
+                                fullWidth
+                                margin="normal"
+                                //value={time}
+                                //onChange={e => setTime(e.target.value)}
+                                placeholder="Time"
+                                type="text"
+                                label="Name On the card"
+                                variant="outlined"
+                            />
 
+<div style={{border:'1px'}}>
+<CardElement style={{border:"1px"}} options={CARD_OPTIONS} />
+
+</div>
+      
       <Button style={{marginTop:"30px"}} size="large" color="primary" variant="outlined" type="submit">Pay</Button>
     </form>
   );

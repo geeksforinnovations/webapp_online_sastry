@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Grid, TextField, Paper, FormControl, InputLabel, Select, MenuItem, Input, makeStyles } from "@material-ui/core";
+import { Grid, TextField, Paper, FormControl, InputLabel, Select, MenuItem, Input, makeStyles, Button } from "@material-ui/core";
 
 import { useTheme } from "@material-ui/styles";
 
@@ -25,6 +25,7 @@ export default function BookPujaForm({ handleNext }) {
     let [insights, setInsights] = useState('')
     let [pujaImage, uploadPujaImage] = useState('')
     const [isLoading, setIsLoading] = useState(false);
+    const [otp, showOTP] = useState(false)
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
     const handleDateChange = (date) => {
@@ -158,6 +159,25 @@ export default function BookPujaForm({ handleNext }) {
 
                     </Grid>
 
+                    {otp ?
+                        <Grid xs={12} item >
+                            <TextField
+                                className={classes.field}
+                                fullWidth
+                                margin="normal"
+                                value={time}
+                                onChange={e => setTime(e.target.value)}
+                                placeholder="Time"
+                                type="text"
+                                label="Enter OTP"
+                                variant="outlined"
+                            />
+
+                        </Grid> : null}
+
+                    {otp 
+                    ? <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Verify OTP</Button>
+                    : <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={() => showOTP(true)}>Confirm</Button>}
                 </Grid>
             </Paper>
         </>

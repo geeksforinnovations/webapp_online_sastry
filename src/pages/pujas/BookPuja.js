@@ -16,6 +16,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 // import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
   header: {
-    marginTop: '30px',
+    marginTop: '100px',
     display: 'flex',
     justifyContent: 'center'
   },
@@ -152,11 +153,15 @@ export default function BookPuja() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar color="" position="fixed">
         <Toolbar>
+          <Button onClick={() => {window.history.back()}}>
+          <HomeIcon></HomeIcon>
           <Typography variant="h6" className={classes.title}>
             Online Pujari
     </Typography>
+          </Button>
+          
         </Toolbar>
       </AppBar>
       <div className={classes.header}>
