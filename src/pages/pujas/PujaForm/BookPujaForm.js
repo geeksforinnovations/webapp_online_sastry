@@ -81,7 +81,8 @@ export default function BookPujaForm({ handleNext }) {
                                 id="date-picker-inline"
                                 label="Date picker inline"
                                 value={selectedDate}
-                                inputVariant="outlined"
+                              //  variant="standard"
+                                inputVariant="standard"
                                 onChange={handleDateChange}
                                 fullWidth
                                 KeyboardButtonProps={{
@@ -101,8 +102,8 @@ export default function BookPujaForm({ handleNext }) {
                                     underline: classes.textFieldUnderline,
                                     input: classes.textField
                                 }
-                            }} variant="outlined" >
-                            <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+                            }} variant="standard" >
+                            <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
                             <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
@@ -130,7 +131,7 @@ export default function BookPujaForm({ handleNext }) {
                             placeholder="Time"
                             type="text"
                             label="Full Name"
-                            variant="outlined"
+                            variant="standard"
                         />
                     </Grid>
                     <Grid xs={12} item >
@@ -143,7 +144,7 @@ export default function BookPujaForm({ handleNext }) {
                                     input: classes.textField
                                 }
                             }}
-                            variant="outlined"
+                            variant="standard"
                         >
                             <InputLabel htmlFor="formatted-text-mask-input">Contact Number</InputLabel>
                             <Input
@@ -175,9 +176,10 @@ export default function BookPujaForm({ handleNext }) {
 
                         </Grid> : null}
 
-                    {otp 
-                    ? <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Verify OTP</Button>
-                    : <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={() => showOTP(true)}>Confirm</Button>}
+                    {otp
+                        ? <><Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Verify OTP</Button>
+                            <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Resend SMS</Button> </>
+                        : <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={() => showOTP(true)}>Confirm</Button>}
                 </Grid>
             </Paper>
         </>

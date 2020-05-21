@@ -1,17 +1,23 @@
 export default class Puja {
-    constructor(name, pujaType,description, about,timeInHrs, cost, requiredThings=[]){
-        this.name = name;
-        this.pujaType = pujaType;
-        this.description = description;
-        this.about = about;
-        this.timeInHrs = timeInHrs;
-        this.cost = cost
-        this.requiredThings = requiredThings
+    constructor(puja){
+        this.name = puja.name;
+        this.pujaType = puja.pujaType;
+        this.description = puja.description;
+        this.about = puja.about;
+        this.timeInHrs = puja.timeInHrs;
+        this.cost = puja.cost
+        this.requiredThings = puja.requiredThings
+        this.pujaLanguages = puja.PujaLanguages || []
         
     }
 
     get Price() {
+        
         const cost = this.cost ? this.cost : 0
         return `$${cost}`
+    }
+    get Languages () {
+        //return []
+        return this.pujaLanguages.map(lang => lang.Language.name)
     }
 }

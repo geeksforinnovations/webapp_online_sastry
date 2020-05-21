@@ -31,7 +31,7 @@ const CARD_OPTIONS = {
     },
   },
 };
-const CheckoutForm = ({handleNext}) => {
+const CheckoutForm = ({ handleNext }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -50,34 +50,34 @@ const CheckoutForm = ({handleNext}) => {
       flexDirection: "column"
     }} onSubmit={handleSubmit}>
       <TextField
-                                //className={classes.field}
-                                fullWidth
-                                margin="normal"
-                                //value={time}
-                                //onChange={e => setTime(e.target.value)}
-                                placeholder="Time"
-                                type="text"
-                                label="Name On the card"
-                                variant="outlined"
-                            />
+        //className={classes.field}
+        fullWidth
+        margin="normal"
+        //value={time}
+        //onChange={e => setTime(e.target.value)}
+        placeholder="Time"
+        type="text"
+        label="Name On the card"
+        variant="outlined"
+      />
 
-<div style={{border:'1px'}}>
-<CardElement style={{border:"1px"}} options={CARD_OPTIONS} />
+      <div style={{ border: '1px' }}>
+        <CardElement style={{ border: "1px" }} options={CARD_OPTIONS} />
 
-</div>
-      
-      <Button style={{marginTop:"30px"}} size="large" color="primary" variant="outlined" type="submit">Pay</Button>
+      </div>
+
+      <Button style={{ marginTop: "30px" }} size="large" color="primary" variant="outlined" type="submit">Pay</Button>
     </form>
   );
 };
 
 // const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
 
-const PaymentPage = ({handleNext}) => (
+const PaymentPage = ({ handleNext }) => (
   <div style={{ width: "400px", margin: '30px auto' }}>
-   
-      <CheckoutForm handleNext={handleNext} />
-   
+
+    <CheckoutForm handleNext={handleNext} />
+
   </div>
 
 );

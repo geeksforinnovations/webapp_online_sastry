@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    padding :"10px 0",
+    padding: "10px 0",
     "& > *": {
       margin: theme.spacing(1),
       width: "350px", //theme.spacing(16),
@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap",
+    height:'40px',
+    overflow:'hidden',
     "& > *": {
       margin: theme.spacing(0.5),
     },
@@ -47,18 +49,14 @@ const useStyles = makeStyles((theme) => ({
     height: "100px",
   },
 }));
-export default function PujaCard({
-  puja: { id, name, state },
-  onArchiveTask,
-  onPinTask,
-  onBook
-}) {
+export default function PujaCard(props) {
+  const { puja, onBook } = props;
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Paper elevation={14}>
         <Typography variant="h6" gutterBottom>
-          {name}
+          {puja.name}
         </Typography>
         <img
           variant="square"
@@ -66,13 +64,12 @@ export default function PujaCard({
           alt="Remy Sharp"
           src="https://picsum.photos/100"
         />
-        <Typography variant="h6" gutterBottom> Time: 2Hrs Price: $200</Typography>
-        
+        <Typography variant="h6" gutterBottom> Time: {puja.timeInHrs}Hrs Price: ${puja.cost}</Typography>
+
         <div className={classes.chipsGroup}>
-          <Chip label="Telugu" variant="outlined" />
-          <Chip label="English" variant="outlined" />
-          <Chip label="Tamil" variant="outlined" />
-          <Chip label="Malayalam" variant="outlined" />
+          {puja.Languages.map(lang => {
+            return <Chip label={lang} variant="outlined" />
+          })}
         </div>
 
         <Typography
@@ -80,10 +77,7 @@ export default function PujaCard({
           variant="body1"
           gutterBottom
         >
-          body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-          blanditiis tenetur unde suscipit, quam beatae rerum inventore
-          consectetur, neque doloribus, cupiditate numquam dignissimos laborum
-          fugiat deleniti? Eum quasi quidem quibusdam.
+          {puja.description}
         </Typography>
 
         <div className={classes.action}>

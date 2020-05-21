@@ -13,9 +13,7 @@ import useStyles from "./styles";
 // components
 import PageTitle from "../../components/PageTitle";
 import Puja from "../../models/Puja";
-import { API } from "aws-amplify";
 import { APIs } from "../../APIs/API";
-import { from } from "zen-observable";
 import { setPujas } from "../../actions/puja.actions";
 
 
@@ -37,10 +35,6 @@ function Pujas(props) {
 
   }, []);
 
-  const rows = [
-    new Puja('fg', 'Online', 'desc', 'about', 12, 123, []),
-    new Puja('fg', 'Online', 'desc', 'about', 12, 123, []),
-    new Puja('fg', 'Online', 'desc', 'about', 12, 123, [])]
 
 
   return (

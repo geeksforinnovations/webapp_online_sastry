@@ -17,6 +17,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
+import PujaList from "./PujaList";
+import { connect } from "react-redux";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +57,7 @@ function getSteps() {
 function getPujas(pujas, handleNext) {
   return (
     <div style={{ display: 'flex', flexWrap: "wrap", margin: "10px 0", justifyContent: 'center' }}>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10].map((num) => {
+      {pujas.map((num) => {
         return (
           <PujaCard
             puja={{
@@ -71,26 +74,32 @@ function getPujas(pujas, handleNext) {
 
 function getPujaries(pujas, handleNext) {
   return (
-    <div style={{ display: 'flex', flexWrap: "wrap", margin: "10px 0", justifyContent: 'center' }}>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10].map((num) => {
-        return (
-          <PujariCard
-            pujari={{
-              id: "1",
-              name: "hello",
-            }}
-            onChoose={handleNext}
-          ></PujariCard>
-        );
-      })}
+    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+       <h3>You can select upto 3 pujaries.</h3>
+       <div style={{ display: 'flex', flexWrap: "wrap", margin: "10px 0", justifyContent: 'center' }}>
+     
+     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10].map((num) => {
+       return (
+         <PujariCard
+           pujari={{
+             id: "1",
+             name: "hello",
+           }}
+           onChoose={handleNext}
+         ></PujariCard>
+       );
+     })}
+   </div>
+
     </div>
+
   );
 }
 
-function getStepContent(step, handleNext) {
+function getStepContent(step, handleNext, data) {
   switch (step) {
     case 0:
-      return <>{getPujas(null, handleNext)}</>;
+      return <PujaList handleNext={handleNext}> </PujaList>;
     case 1:
       return <>{getPujaries(null, handleNext)}</>;
     case 2:
@@ -103,11 +112,13 @@ function getStepContent(step, handleNext) {
       return "Unknown step";
   }
 }
-export default function BookPuja() {
+function BookPuja() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
+
+  
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -240,4 +251,15 @@ export default function BookPuja() {
 
 PropTypes.BookPuja = {};
 
+const mapStateToProps = state => ({
+  pujas: state.pujas.availablePujas
+})
+
+
+
+
+export default connect(
+  mapStateToProps,
+  null
+)(BookPuja)
 //defaultProps.BookPuja = {};
