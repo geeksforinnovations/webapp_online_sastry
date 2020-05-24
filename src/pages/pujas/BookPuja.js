@@ -19,6 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import PujaList from "./PujaList";
 import { connect } from "react-redux";
+import PujariList from "./PujariList";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +102,7 @@ function getStepContent(step, handleNext, data) {
     case 0:
       return <PujaList handleNext={handleNext}> </PujaList>;
     case 1:
-      return <>{getPujaries(null, handleNext)}</>;
+      return <PujariList  handleNext={handleNext}></PujariList>;
     case 2:
       return <BookPujaForm handleNext={handleNext}></BookPujaForm>;
     case 3:

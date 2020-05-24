@@ -24,7 +24,7 @@ function Pujas(props) {
     try {
       APIs.getPujas().then(resp => {
         const pujas = resp.data.map(puja => {
-          return new Puja(puja.name, puja.pujaType, puja.description, puja.about, puja.timeInHrs, puja.cost, puja.requiredThings)
+          return new Puja(puja)
         })
         props.setPujas(pujas)
       })

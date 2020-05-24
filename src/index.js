@@ -43,6 +43,11 @@ Amplify.configure({
         region: config.apiGateway.REGION
       },
       {
+        name: "pujaries",
+        endpoint: config.apiGateway.URL,
+        region: config.apiGateway.REGION
+      },
+      {
         name: "payments",
         endpoint: config.apiGateway.URL,
         region: config.apiGateway.REGION
