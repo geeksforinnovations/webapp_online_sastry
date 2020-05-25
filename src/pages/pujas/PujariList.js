@@ -13,6 +13,8 @@ const PujariList = (props) => {
                 const pujaries = resp.data.map(puja => {
                     return new Pujari(puja)
                 })
+                console.log(pujaries[0].name);
+                
                 setPujaries(pujaries)
             })
         } catch (error) {
@@ -21,8 +23,8 @@ const PujariList = (props) => {
     }, []);
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {pujaries.map(pujri => {
-                return <PujariCard onBook={handleNext} pujri={pujri}></PujariCard>
+            {pujaries.map((pujari, i) => {
+                return <PujariCard key={`${i}_mjn`} onBook={handleNext} pujari={pujari}></PujariCard>
             })}
         </div>
 

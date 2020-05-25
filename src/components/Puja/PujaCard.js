@@ -67,8 +67,8 @@ export default function PujaCard(props) {
         <Typography variant="h6" gutterBottom> Time: {puja.timeInHrs}Hrs Price: ${puja.cost}</Typography>
 
         <div className={classes.chipsGroup}>
-          {puja.Languages.map(lang => {
-            return <Chip label={lang} variant="outlined" />
+          {puja.Languages.map((lang, i) => {
+            return <Chip key={`${i}_sdf`} label={lang} variant="outlined" />
           })}
         </div>
 

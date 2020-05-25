@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    padding :"10px 0",
+    padding: "10px 0",
     "& > *": {
       margin: theme.spacing(1),
       width: "350px", //theme.spacing(16),
@@ -49,17 +49,17 @@ const useStyles = makeStyles((theme) => ({
     height: "100px",
   },
 }));
-export default function PujariCard({
-  pujari: { id, name, state },
-  onChoose
-}) {
+export default function PujariCard(props) {
+  const { pujari, onBook } = props;
   const classes = useStyles();
+  console.log(pujari)
   const [value, setValue] = React.useState(2);
   return (
     <div className={classes.root}>
       <Paper elevation={14}>
         <Typography variant="h6" gutterBottom>
-          {name}
+          {pujari.name}
+
         </Typography>
         <img
           variant="square"
@@ -69,21 +69,20 @@ export default function PujariCard({
         />
         <Typography variant="h6" gutterBottom> Experience: 4 Yrs</Typography>
         <Box component="fieldset" mb={3} borderColor="transparent">
-        <Typography component="legend">Controlled</Typography>
-        <Rating
-          name="simple-controlled"
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
-        />
-      </Box>
-        
+          <Typography component="legend">Controlled</Typography>
+          <Rating
+            name="simple-controlled"
+            value={pujari.rating}
+          // onChange={(event, newValue) => {
+          //   setValue(newValue);
+          // }}
+          />
+        </Box>
+
         <div className={classes.chipsGroup}>
-          <Chip label="Telugu" variant="outlined" />
-          <Chip label="English" variant="outlined" />
-          <Chip label="Tamil" variant="outlined" />
-          <Chip label="Malayalam" variant="outlined" />
+          {pujari.Languages.map(lang => {
+            return <Chip label={lang} variant="outlined" />
+          })}
         </div>
 
         <Typography
@@ -91,17 +90,14 @@ export default function PujariCard({
           variant="body1"
           gutterBottom
         >
-          body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-          blanditiis tenetur unde suscipit, quam beatae rerum inventore
-          consectetur, neque doloribus, cupiditate numquam dignissimos laborum
-          fugiat deleniti? Eum quasi quidem quibusdam.
+          {pujari.description}
         </Typography>
 
         <div className={classes.action}>
           <Button size="large" color="primary" variant="outlined">
             See more
           </Button>
-          <Button onClick={onChoose} size="large" color="primary" variant="outlined">
+          <Button onClick={onBook} size="large" color="primary" variant="outlined">
             Select
           </Button>
         </div>
@@ -117,6 +113,6 @@ PujariCard.propTypes = {
 PujariCard.defaultValues = {
   puja: {
     id: "1",
-    name: "hello",
+    firstName: "hello",
   },
 };

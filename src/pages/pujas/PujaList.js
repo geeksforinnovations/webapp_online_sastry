@@ -22,8 +22,8 @@ const PujaList = (props) => {
     }, []);
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {pujas.map(puja => {
-                return <PujaCard onBook={handleNext} puja={puja}></PujaCard>
+            {pujas.map((puja, i) => {
+                return <PujaCard key={`${i}_jkn`} onBook={handleNext} puja={puja}></PujaCard>
             })}
         </div>
 

@@ -22,6 +22,7 @@ export default function BookPujaForm({ handleNext }) {
     let [price, setPrice] = useState('')
     let [time, setTime] = useState('')
     let [about, setAbout] = useState('')
+    let [email, setEmail] = useState('')
     let [insights, setInsights] = useState('')
     let [pujaImage, uploadPujaImage] = useState('')
     const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +82,7 @@ export default function BookPujaForm({ handleNext }) {
                                 id="date-picker-inline"
                                 label="Date picker inline"
                                 value={selectedDate}
-                              //  variant="standard"
+                                //  variant="standard"
                                 inputVariant="standard"
                                 onChange={handleDateChange}
                                 fullWidth
@@ -126,11 +127,24 @@ export default function BookPujaForm({ handleNext }) {
                             className={classes.field}
                             fullWidth
                             margin="normal"
-                            value={time}
-                            onChange={e => setTime(e.target.value)}
-                            placeholder="Time"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                            placeholder="Name"
                             type="text"
                             label="Full Name"
+                            variant="standard"
+                        />
+                    </Grid>
+                    <Grid xs={12} item >
+                        <TextField
+                            className={classes.field}
+                            fullWidth
+                            margin="normal"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            placeholder="Email"
+                            type="text"
+                            label="Email"
                             variant="standard"
                         />
                     </Grid>
@@ -148,7 +162,6 @@ export default function BookPujaForm({ handleNext }) {
                         >
                             <InputLabel htmlFor="formatted-text-mask-input">Contact Number</InputLabel>
                             <Input
-
                                 //value={values.textmask}
                                 //onChange={handleChange}
                                 name="textmask"

@@ -15,8 +15,13 @@ export class Pujari {
         this.status = pujari.status;
         this.imageId = pujari.imageId;
         this.rating = pujari.rating;
-        this.experience = this.experience
+        this.experience = pujari.experience
+        this.PujariLanguages = pujari.PujariLanguages
 
+    }
+    get Languages () {
+        //return []
+        return this.PujariLanguages.map(lang => lang.Language.name)
     }
     static getAll() {
         return API.get('pujaries', '/pujaris')
@@ -25,7 +30,7 @@ export class Pujari {
     isNew() {
         return this.id == null
     }
-    get fullName() {
+    get name() {
         return `${this.firstName} ${this.lastName}`
     }
 
