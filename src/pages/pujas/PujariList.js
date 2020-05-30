@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Pujari from "../../models/Pujari";
 import { setPujaries } from "../../actions/pujari.actions";
-import PujariCard from '../../components/Pujari/PujariCard';
+import {PujariCard} from '../../components/Pujari/PujariCard';
 import { connect } from 'react-redux';
 
 const PujariList = (props) => {

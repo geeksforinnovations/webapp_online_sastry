@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100px",
   },
 }));
-export default function PujariCard(props) {
+export const PujariCard = React.forwardRef((props, ref) => {
   const { pujari, onBook } = props;
   const classes = useStyles();
   console.log(pujari)
@@ -80,8 +80,8 @@ export default function PujariCard(props) {
         </Box>
 
         <div className={classes.chipsGroup}>
-          {pujari.Languages.map(lang => {
-            return <Chip label={lang} variant="outlined" />
+          {pujari.Languages.map((lang, i) => {
+            return <Chip key={i} label={lang} variant="outlined" />
           })}
         </div>
 
@@ -104,7 +104,8 @@ export default function PujariCard(props) {
       </Paper>
     </div>
   );
-}
+
+})
 
 PujariCard.propTypes = {
   puja: PropTypes.object,

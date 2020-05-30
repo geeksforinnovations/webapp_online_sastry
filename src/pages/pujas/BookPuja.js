@@ -7,7 +7,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import PujaCard from "../../components/Puja/PujaCard";
-import PujariCard from "../../components/Pujari/PujariCard";
+import {PujariCard} from "../../components/Pujari/PujariCard";
 import BookPujaForm from "./PujaForm/BookPujaForm";
 import PaymentPage from "./Payment/PaymentPage";
 import AppBar from '@material-ui/core/AppBar';

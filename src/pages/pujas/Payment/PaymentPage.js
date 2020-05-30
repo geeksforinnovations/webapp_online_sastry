@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import ReactDOM from 'react-dom';
 // import { loadStripe } from '@stripe/stripe-js';
 import { Grid, TextField, Paper, FormControl, InputLabel, Select, MenuItem, Input, makeStyles, Button } from "@material-ui/core";
-
+import { APIs } from "../../../APIs/API";
 import {
   CardElement,
   Elements,
@@ -32,23 +32,32 @@ const CARD_OPTIONS = {
   },
 };
 const CheckoutForm = ({ handleNext }) => {
+  let [name, setName] = useState("");
+  let [zip, setZip] = useState("")
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    handleNext()
-    // const { error, paymentMethod } = await stripe.createPaymentMethod({
-    //   type: 'card',
-    //   card: elements.getElement(CardElement),
-    // });
+    const card = elements.getElement(CardElement);
+    try {
+      const token = await stripe.createToken(card);
+      const payment = await APIs.pay(token.token.id, 1)
+      handleNext()
+    } catch (error) {
+      console.error(error)
+      alert('payment failed')
+    }
+   
   };
+
+
 
   return (
     <form style={{
       display: "flex",
       flexDirection: "column"
-    }} onSubmit={handleSubmit}>
+    }}>
       <TextField
         //className={classes.field}
         fullWidth
@@ -66,7 +75,7 @@ const CheckoutForm = ({ handleNext }) => {
 
       </div>
 
-      <Button style={{ marginTop: "30px" }} size="large" color="primary" variant="outlined" type="submit">Pay</Button>
+      <Button onClick={handleSubmit} style={{ marginTop: "30px" }} size="large" color="primary" variant="outlined" type="submit">Pay</Button>
     </form>
   );
 };

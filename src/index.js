@@ -21,7 +21,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements
 } from '@stripe/react-stripe-js';
-const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+const stripePromise = loadStripe('pk_test_dPgmvHwW6NDdnISsEJ5BGbJB00XsWEGgQK');
 Amplify.configure({
   Auth: {
     mandatorySignIn: true,

@@ -8,193 +8,208 @@ import {
     MuiPickersUtilsProvider,
     DateTimePicker
 } from '@material-ui/pickers';
+import phone from 'phone'
 
 // styles
 // import useStyles from "../styles";
 
 // components
 import PhoneField from "../../../components/PhoneInput/PhoneField";
+// import { API } from "aws-amplify";
+import { APIs } from "../../../APIs/API";
 
 
 export default function BookPujaForm({ handleNext }) {
-    const file = useRef(null);
-    var [name, setName] = useState("");
-    let [price, setPrice] = useState('')
-    let [time, setTime] = useState('')
-    let [about, setAbout] = useState('')
-    let [email, setEmail] = useState('')
-    let [insights, setInsights] = useState('')
-    let [pujaImage, uploadPujaImage] = useState('')
-    const [isLoading, setIsLoading] = useState(false);
-    const [otp, showOTP] = useState(false)
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+    let [fname, setfName] = useState("");
+    let [phNumber, setphNumber] = useState('')
+    let [isDisplayOTP, setIsDisplay] = useState(false)
+    let [email, setEmail] = useState('')
+    let [otp, setOTP] = useState('')
+    let [startDate, setStartDate] = useState(new Date());
+    let [endDate, setEndtDate] = useState(new Date());
+
+    const sendOTP = async () => {
+        
+        const ph = phone(phNumber, 'USA')
+        
+       const resp = await APIs.sendOTP(ph[0])
+        setIsDisplay(true)
+    }
+    const verifyOTP = async() => {
+        const ph = phone(phNumber, 'USA')
+        try {
+            const resp = await APIs.verifyOTP(ph[0], otp)
+            if(resp.valid == true){
+                handleNext()
+            }else {
+                alert("enter valid OTP")
+            }
+            //handleNext()
+        } catch (error) {
+            
+        }
+       
+    }
+
+    const handleStartDate = (date) => {
+        setStartDate(date);
     };
+    const handleEndDate = (date) => {
+        setEndtDate(date);
+    };
+    const handlePhNumber = (e) => {
+        setphNumber(e.target.value)
+    }
     var theme = useTheme();
-    const langueages = [
-        { text: "Telugu", value: "te" },
-        { text: "Hindi", value: "hi" },
-        { text: "Marati", value: "mt" },
-        { text: "Tamil", value: "ta" }
-    ];
+
     const useStyles = makeStyles((theme) => ({
         root: {
             width: "600px",
-            /* align-items: center; */
-            /* justify-content: center; */
             margin: "auto",
             paddingTop: "35px",
             margin: "45px auto"
         },
         field: {
-            // padding: theme.spacing(3),
             width: "500px",
             margin: '20px 0'
         }
     }));
     var classes = useStyles();
-
-
-
     return (
-        <>
-            <Paper className={classes.root}>
-                <Grid container
-                    direction="column"
-                    justify="center"
-                    alignItems="center">
-                    <Grid item xs={12} >
-                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                            <DateTimePicker
-                                className={classes.field}
-                                InputProps={{
-                                    classes: {
-                                        underline: classes.textFieldUnderline,
-                                        input: classes.textField
-                                    }
-                                }}
-                                disableToolbar
-                                //variant="inline"
-                                //format="MM/dd/yyyy"
-                                margin="normal"
-                                id="date-picker-inline"
-                                label="Date picker inline"
-                                value={selectedDate}
-                                //  variant="standard"
-                                inputVariant="standard"
-                                onChange={handleDateChange}
-                                fullWidth
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                            />
-                        </MuiPickersUtilsProvider>
-
-                    </Grid>
-
-                    <Grid xs={12} item >
-                        <FormControl
+        <Paper className={classes.root}>
+            <Grid container
+                direction="column"
+                justify="center"
+                alignItems="center">
+                <Grid item xs={12} >
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                        <DateTimePicker
                             className={classes.field}
-                            fullWidth
-                            InputProps={{
-                                classes: {
-                                    underline: classes.textFieldUnderline,
-                                    input: classes.textField
-                                }
-                            }} variant="standard" >
-                            <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={10}
-                                onChange={() => { }}
-                                label="Select Language"
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Telugu</MenuItem>
-                                <MenuItem value={20}>Hindi</MenuItem>
-                                <MenuItem value={30}>Tamil</MenuItem>
-                            </Select>
-                        </FormControl>
-
-                    </Grid>
-                    <Grid xs={12} item >
-                        <TextField
-                            className={classes.field}
-                            fullWidth
+                            disableToolbar
                             margin="normal"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                            placeholder="Name"
-                            type="text"
-                            label="Full Name"
-                            variant="standard"
-                        />
-                    </Grid>
-                    <Grid xs={12} item >
-                        <TextField
-                            className={classes.field}
+                            //id="date-picker-inline"
+                            label="Puja Start Date"
+                            value={startDate}
+                            inputVariant="standard"
+                            onChange={handleStartDate}
                             fullWidth
-                            margin="normal"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            placeholder="Email"
-                            type="text"
-                            label="Email"
-                            variant="standard"
+
                         />
-                    </Grid>
-                    <Grid xs={12} item >
-                        <FormControl
-                            className={classes.field}
-                            fullWidth
-                            InputProps={{
-                                classes: {
-                                    underline: classes.textFieldUnderline,
-                                    input: classes.textField
-                                }
-                            }}
-                            variant="standard"
-                        >
-                            <InputLabel htmlFor="formatted-text-mask-input">Contact Number</InputLabel>
-                            <Input
-                                //value={values.textmask}
-                                //onChange={handleChange}
-                                name="textmask"
-                                id="formatted-text-mask-input"
-                                inputComponent={PhoneField}
-                                variant="outlined"
-                            />
-                        </FormControl>
+                    </MuiPickersUtilsProvider>
 
-                    </Grid>
-
-                    {otp ?
-                        <Grid xs={12} item >
-                            <TextField
-                                className={classes.field}
-                                fullWidth
-                                margin="normal"
-                                value={time}
-                                onChange={e => setTime(e.target.value)}
-                                placeholder="Time"
-                                type="text"
-                                label="Enter OTP"
-                                variant="outlined"
-                            />
-
-                        </Grid> : null}
-
-                    {otp
-                        ? <><Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Verify OTP</Button>
-                            <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Resend SMS</Button> </>
-                        : <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={() => showOTP(true)}>Confirm</Button>}
                 </Grid>
-            </Paper>
-        </>
+
+                <Grid item xs={12} >
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                        <DateTimePicker
+                            className={classes.field}
+                            disableToolbar
+                            margin="normal"
+                            //id="date-picker-inline"
+                            label="Puja End Date"
+                            value={endDate}
+                            inputVariant="standard"
+                            onChange={handleEndDate}
+                            fullWidth
+
+                        />
+                    </MuiPickersUtilsProvider>
+
+                </Grid>
+
+
+
+                <Grid xs={12} item >
+                    <FormControl
+                        className={classes.field}
+                        fullWidth
+                        variant="standard" >
+                        <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            value={10}
+                            onChange={() => { }}
+                            label="Select Language"
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={10}>Telugu</MenuItem>
+                            <MenuItem value={20}>Hindi</MenuItem>
+                            <MenuItem value={30}>Tamil</MenuItem>
+                        </Select>
+                    </FormControl>
+
+                </Grid>
+                <Grid xs={12} item >
+                    <TextField
+                        className={classes.field}
+                        fullWidth
+                        margin="normal"
+                        value={fname}
+                        onChange={e => setfName(e.target.value)}
+                        placeholder="Full Name"
+                        type="text"
+                        label="Full Name"
+                        variant="standard"
+                    />
+                </Grid>
+                <Grid xs={12} item >
+                    <TextField
+                        className={classes.field}
+                        fullWidth
+                        margin="normal"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        placeholder="Email"
+                        type="text"
+                        label="Email"
+                        variant="standard"
+                    />
+                </Grid>
+                <Grid xs={12} item >
+                    <FormControl
+                        className={classes.field}
+                        fullWidth
+
+                        variant="standard"
+                    >
+                        <InputLabel>Contact Number</InputLabel>
+                        <Input
+                            value={phNumber}
+                            onChange={(ph) => { handlePhNumber(ph) }}
+                            name="textmask"
+                            inputComponent={PhoneField}
+                            variant="outlined"
+                        />
+                    </FormControl>
+
+                </Grid>
+
+                {isDisplayOTP ?
+                    <Grid xs={12} item >
+                        <TextField
+                            className={classes.field}
+                            fullWidth
+                            margin="normal"
+                            value={otp}
+                            onChange={e => setOTP(e.target.value)}
+                            placeholder="OTP"
+                            type="text"
+                            label="Enter OTP"
+                            variant="standard"
+                        />
+
+                    </Grid> : null}
+
+                {isDisplayOTP
+                    ? <><Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={verifyOTP}>Verify OTP</Button>
+                        <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Resend SMS</Button> </>
+                    : <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={sendOTP}>Confirm</Button>}
+            </Grid>
+            <div>{startDate.toString()} - {endDate.toString()}</div>
+        </Paper>
     );
 }
