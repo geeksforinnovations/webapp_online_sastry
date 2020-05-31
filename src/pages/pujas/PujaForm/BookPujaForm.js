@@ -9,6 +9,7 @@ import {
     DateTimePicker
 } from '@material-ui/pickers';
 import phone from 'phone'
+import Booking from "../../../models/Booking";
 
 // styles
 // import useStyles from "../styles";
@@ -17,9 +18,10 @@ import phone from 'phone'
 import PhoneField from "../../../components/PhoneInput/PhoneField";
 // import { API } from "aws-amplify";
 import { APIs } from "../../../APIs/API";
+import { BOOKING } from "../../../actions/actions.constants";
 
 
-export default function BookPujaForm({ handleNext }) {
+export default function BookPujaForm({ handleNext, onBookingSubmit }) {
 
     let [fname, setfName] = useState("");
     let [phNumber, setphNumber] = useState('')
@@ -30,26 +32,37 @@ export default function BookPujaForm({ handleNext }) {
     let [endDate, setEndtDate] = useState(new Date());
 
     const sendOTP = async () => {
-        
+
         const ph = phone(phNumber, 'USA')
-        
-       const resp = await APIs.sendOTP(ph[0])
+
+        const resp = await APIs.sendOTP(ph[0])
         setIsDisplay(true)
     }
-    const verifyOTP = async() => {
+    const verifyOTP = async () => {
         const ph = phone(phNumber, 'USA')
         try {
             const resp = await APIs.verifyOTP(ph[0], otp)
-            if(resp.valid == true){
-                handleNext()
-            }else {
+            if (resp.data.valid == true) {
+                const booking= {
+                    pujaId:1,
+                    languageId:1,
+                    selectedPujaries:[1],
+                    pujaStartDate: new Date(),
+                    pujaEndDate: new Date(),
+                    customerName: fname,
+                    email: email,
+                    phone: phNumber
+
+                }
+                onBookingSubmit(new Booking(booking))
+            } else {
                 alert("enter valid OTP")
             }
             //handleNext()
         } catch (error) {
-            
+
         }
-       
+
     }
 
     const handleStartDate = (date) => {

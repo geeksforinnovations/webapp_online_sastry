@@ -31,7 +31,7 @@ const CARD_OPTIONS = {
     },
   },
 };
-const CheckoutForm = ({ handleNext }) => {
+const CheckoutForm = ({  confirmPay }) => {
   let [name, setName] = useState("");
   let [zip, setZip] = useState("")
   const stripe = useStripe();
@@ -42,8 +42,8 @@ const CheckoutForm = ({ handleNext }) => {
     const card = elements.getElement(CardElement);
     try {
       const token = await stripe.createToken(card);
-      const payment = await APIs.pay(token.token.id, 1)
-      handleNext()
+      confirmPay(token.token.id)
+     
     } catch (error) {
       console.error(error)
       alert('payment failed')
@@ -82,10 +82,10 @@ const CheckoutForm = ({ handleNext }) => {
 
 // const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
 
-const PaymentPage = ({ handleNext }) => (
+const PaymentPage = ({ confirmPay }) => (
   <div style={{ width: "400px", margin: '30px auto' }}>
 
-    <CheckoutForm handleNext={handleNext} />
+    <CheckoutForm confirmPay={confirmPay} />
 
   </div>
 

@@ -5,7 +5,7 @@ import {PujariCard} from '../../components/Pujari/PujariCard';
 import { connect } from 'react-redux';
 
 const PujariList = (props) => {
-    const { pujaries, handleNext, setPujaries } = props;
+    const { pujaries, setPujaries, onSelectPujaries } = props;
 
     useEffect(() => {
         try {
@@ -24,7 +24,7 @@ const PujariList = (props) => {
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
             {pujaries.map((pujari, i) => {
-                return <PujariCard key={`${i}_mjn`} onBook={handleNext} pujari={pujari}></PujariCard>
+                return <PujariCard key={`${i}_mjn`} onBook={onSelectPujaries} pujari={pujari}></PujariCard>
             })}
         </div>
 

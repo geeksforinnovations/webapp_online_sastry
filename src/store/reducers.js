@@ -4,10 +4,12 @@ import { combineReducers } from 'redux';
 // import login from '../pages/login/LoginState';
 import pujas from '../reducers/puja.reducer'
 import pujaries from '../reducers/pujari.reducer'
+import booking from "../reducers/booking.reducer";
 
 export default combineReducers({
     pujas,
-    pujaries
+    pujaries,
+    booking
     //   layout,
     //   login,
 });

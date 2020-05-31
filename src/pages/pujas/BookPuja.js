@@ -6,8 +6,6 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import PujaCard from "../../components/Puja/PujaCard";
-import {PujariCard} from "../../components/Pujari/PujariCard";
 import BookPujaForm from "./PujaForm/BookPujaForm";
 import PaymentPage from "./Payment/PaymentPage";
 import AppBar from '@material-ui/core/AppBar';
@@ -20,6 +18,9 @@ import HomeIcon from '@material-ui/icons/Home';
 import PujaList from "./PujaList";
 import { connect } from "react-redux";
 import PujariList from "./PujariList";
+import { setBooking, setPujari, setPuja } from "../../actions/bookings.actions";
+import { APIs } from "../../APIs/API";
+import Booking from "../../models/Booking";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,71 +56,62 @@ function getSteps() {
   ];
 }
 
-function getPujas(pujas, handleNext) {
-  return (
-    <div style={{ display: 'flex', flexWrap: "wrap", margin: "10px 0", justifyContent: 'center' }}>
-      {pujas.map((num) => {
-        return (
-          <PujaCard
-            puja={{
-              id: "1",
-              name: "hello",
-            }}
-            onBook={handleNext}
-          ></PujaCard>
-        );
-      })}
-    </div>
-  );
-}
 
-function getPujaries(pujas, handleNext) {
-  return (
-    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
-       <h3>You can select upto 3 pujaries.</h3>
-       <div style={{ display: 'flex', flexWrap: "wrap", margin: "10px 0", justifyContent: 'center' }}>
-     
-     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10].map((num) => {
-       return (
-         <PujariCard
-           pujari={{
-             id: "1",
-             name: "hello",
-           }}
-           onChoose={handleNext}
-         ></PujariCard>
-       );
-     })}
-   </div>
-
-    </div>
-
-  );
-}
-
-function getStepContent(step, handleNext, data) {
-  switch (step) {
-    case 0:
-      return <PujaList handleNext={handleNext}> </PujaList>;
-    case 1:
-      return <PujariList  handleNext={handleNext}></PujariList>;
-    case 2:
-      return <BookPujaForm handleNext={handleNext}></BookPujaForm>;
-    case 3:
-      return <PaymentPage handleNext={handleNext}></PaymentPage>;
-    case 4:
-      return "Success";
-    default:
-      return "Unknown step";
-  }
-}
-function BookPuja() {
+function BookPuja(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
+  const onSelectPuja = (puja) => {
+    props.setPuja(puja)
+    handleNext()
 
-  
+  }
+  const onSelectPujaries = (pujaries) => {
+    props.setPujari(pujaries)
+    handleNext()
+  }
+  const confirmBooking = async (token) => {
+    try {
+      const book = await Booking.confirm(props.booking, token)
+      if (book.data != null) {
+        handleNext()
+      }
+      else {
+        alert('failed')
+      }
+
+    } catch (error) {
+
+    }
+
+  }
+
+
+
+  const getStepContent = (step, handleNext, data) => {
+    switch (step) {
+      case 0:
+        return <PujaList onSelectPuja={onSelectPuja}> </PujaList>;
+      case 1:
+        return <PujariList onSelectPujaries={onSelectPujaries} ></PujariList>;
+      case 2:
+        return <BookPujaForm onBookingSubmit={onBookingSubmit} ></BookPujaForm>;
+      case 3:
+        return <PaymentPage confirmPay={confirmBooking}></PaymentPage>;
+      case 4:
+        return "Success";
+      default:
+        return "Unknown step";
+    }
+  }
+
+
+  const onBookingSubmit = (booking) => {
+
+    props.setBooking(booking)
+    handleNext()
+  }
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -167,13 +159,11 @@ function BookPuja() {
     <div className={classes.root}>
       <AppBar color="" position="fixed">
         <Toolbar>
-          <Button onClick={() => {window.history.back()}}>
-          <HomeIcon></HomeIcon>
-          <Typography variant="h6" className={classes.title}>
-            Online Pujari
-    </Typography>
+          <Button onClick={() => { window.history.back() }}>
+            <HomeIcon></HomeIcon>
+            <Typography variant="h6" className={classes.title}>Online Pujari</Typography>
           </Button>
-          
+
         </Toolbar>
       </AppBar>
       <div className={classes.header}>
@@ -253,14 +243,17 @@ function BookPuja() {
 PropTypes.BookPuja = {};
 
 const mapStateToProps = state => ({
-  pujas: state.pujas.availablePujas
+  pujas: state.pujas.availablePujas,
+  booking: state.booking.booking
 })
 
-
-
-
+const mapDispatchToProps = dispatch => ({
+  setBooking: booking => dispatch(setBooking(booking)),
+  setPuja: puja => dispatch(setPuja(puja)),
+  setPujari: pujari => dispatch(setPujari(pujari))
+})
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(BookPuja)
 //defaultProps.BookPuja = {};

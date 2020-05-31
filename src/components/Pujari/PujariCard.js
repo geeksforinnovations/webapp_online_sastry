@@ -97,7 +97,7 @@ export const PujariCard = React.forwardRef((props, ref) => {
           <Button size="large" color="primary" variant="outlined">
             See more
           </Button>
-          <Button onClick={onBook} size="large" color="primary" variant="outlined">
+          <Button onClick={()=>onBook(pujari)} size="large" color="primary" variant="outlined">
             Select
           </Button>
         </div>

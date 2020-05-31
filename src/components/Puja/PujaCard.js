@@ -84,7 +84,7 @@ export default function PujaCard(props) {
           <Button size="large" color="primary" variant="outlined">
             See more
           </Button>
-          <Button onClick={onBook} size="large" color="primary" variant="outlined">
+          <Button onClick={() => onBook(puja)} size="large" color="primary" variant="outlined">
             Book
           </Button>
         </div>
