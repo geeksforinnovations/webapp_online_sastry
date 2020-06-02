@@ -23,12 +23,16 @@ const booking = (state = initialState, action) => {
         case BOOKING.SET_PUJA:
             return {
                 ...state,
-                selectedPuja: action.puja
+                selectedPuja: action.puja,
+                booking: { pujaId: action.puja.id }
             }
         case BOOKING.SET_PUJARI:
+            let pujaries = []
+            pujaries.push(action.pujari)
             return {
                 ...state,
-                selectedPujaries: [action.pujari]
+                selectedPujaries: pujaries,
+                booking: { ...state.booking, selectedPujaries: [action.pujari.id] }
             }
         default:
             return state

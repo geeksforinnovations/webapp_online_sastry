@@ -19,9 +19,10 @@ import PhoneField from "../../../components/PhoneInput/PhoneField";
 // import { API } from "aws-amplify";
 import { APIs } from "../../../APIs/API";
 import { BOOKING } from "../../../actions/actions.constants";
+import { setBooking } from "../../../actions/bookings.actions";
 
 
-export default function BookPujaForm({ handleNext, onBookingSubmit }) {
+export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm }) {
 
     let [fname, setfName] = useState("");
     let [phNumber, setphNumber] = useState('')
@@ -31,30 +32,28 @@ export default function BookPujaForm({ handleNext, onBookingSubmit }) {
     let [startDate, setStartDate] = useState(new Date());
     let [endDate, setEndtDate] = useState(new Date());
 
-    const sendOTP = async () => {
+    const sendOTP = async (e) => {
+        e.preventDefault()
 
-        const ph = phone(phNumber, 'USA')
-
+        const ph = phone(phNumber, 'IND')
+        const booking = {
+            languageId: 1,
+            pujaStartDate: startDate,
+            pujaEndDate: endDate,
+            customerName: fname,
+            email: email,
+            phone: phNumber,
+        }
+        onConfirm(booking)
         const resp = await APIs.sendOTP(ph[0])
         setIsDisplay(true)
     }
     const verifyOTP = async () => {
-        const ph = phone(phNumber, 'USA')
+        const ph = phone(phNumber, 'IND')
         try {
             const resp = await APIs.verifyOTP(ph[0], otp)
             if (resp.data.valid == true) {
-                const booking= {
-                    pujaId:1,
-                    languageId:1,
-                    selectedPujaries:[1],
-                    pujaStartDate: new Date(),
-                    pujaEndDate: new Date(),
-                    customerName: fname,
-                    email: email,
-                    phone: phNumber
-
-                }
-                onBookingSubmit(new Booking(booking))
+                onBookingSubmit()
             } else {
                 alert("enter valid OTP")
             }
@@ -91,138 +90,161 @@ export default function BookPujaForm({ handleNext, onBookingSubmit }) {
     var classes = useStyles();
     return (
         <Paper className={classes.root}>
-            <Grid container
-                direction="column"
-                justify="center"
-                alignItems="center">
-                <Grid item xs={12} >
-                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                        <DateTimePicker
-                            className={classes.field}
-                            disableToolbar
-                            margin="normal"
-                            //id="date-picker-inline"
-                            label="Puja Start Date"
-                            value={startDate}
-                            inputVariant="standard"
-                            onChange={handleStartDate}
-                            fullWidth
+            <form onSubmit={sendOTP}>
+                <Grid container
+                    direction="column"
+                    justify="center"
+                    alignItems="center">
+                    <Grid item xs={12} >
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                            <DateTimePicker
+                                disablePast={true}
+                                className={classes.field}
+                                disableToolbar
+                                margin="normal"
+                                //id="date-picker-inline"
+                                label="Puja Start Date"
+                                value={startDate}
+                                inputVariant="standard"
+                                onChange={handleStartDate}
+                                fullWidth
 
-                        />
-                    </MuiPickersUtilsProvider>
+                            />
+                        </MuiPickersUtilsProvider>
 
-                </Grid>
+                    </Grid>
 
-                <Grid item xs={12} >
-                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                        <DateTimePicker
-                            className={classes.field}
-                            disableToolbar
-                            margin="normal"
-                            //id="date-picker-inline"
-                            label="Puja End Date"
-                            value={endDate}
-                            inputVariant="standard"
-                            onChange={handleEndDate}
-                            fullWidth
+                    <Grid item xs={12} >
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                            <DateTimePicker
+                                minDate={startDate}
+                                disablePast={true}
+                                className={classes.field}
+                                disableToolbar
+                                margin="normal"
+                                //id="date-picker-inline"
+                                label="Puja End Date"
+                                value={endDate}
+                                inputVariant="standard"
+                                onChange={handleEndDate}
+                                fullWidth
 
-                        />
-                    </MuiPickersUtilsProvider>
+                            />
+                        </MuiPickersUtilsProvider>
 
-                </Grid>
+                    </Grid>
 
 
 
-                <Grid xs={12} item >
-                    <FormControl
-                        className={classes.field}
-                        fullWidth
-                        variant="standard" >
-                        <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            value={10}
-                            onChange={() => { }}
-                            label="Select Language"
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={10}>Telugu</MenuItem>
-                            <MenuItem value={20}>Hindi</MenuItem>
-                            <MenuItem value={30}>Tamil</MenuItem>
-                        </Select>
-                    </FormControl>
-
-                </Grid>
-                <Grid xs={12} item >
-                    <TextField
-                        className={classes.field}
-                        fullWidth
-                        margin="normal"
-                        value={fname}
-                        onChange={e => setfName(e.target.value)}
-                        placeholder="Full Name"
-                        type="text"
-                        label="Full Name"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid xs={12} item >
-                    <TextField
-                        className={classes.field}
-                        fullWidth
-                        margin="normal"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        placeholder="Email"
-                        type="text"
-                        label="Email"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid xs={12} item >
-                    <FormControl
-                        className={classes.field}
-                        fullWidth
-
-                        variant="standard"
-                    >
-                        <InputLabel>Contact Number</InputLabel>
-                        <Input
-                            value={phNumber}
-                            onChange={(ph) => { handlePhNumber(ph) }}
-                            name="textmask"
-                            inputComponent={PhoneField}
-                            variant="outlined"
-                        />
-                    </FormControl>
-
-                </Grid>
-
-                {isDisplayOTP ?
                     <Grid xs={12} item >
+                        <FormControl
+                            className={classes.field}
+                            fullWidth
+                            variant="standard" >
+                            <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-outlined-label"
+                                id="demo-simple-select-outlined"
+                                value={10}
+                                onChange={() => { }}
+                                label="Select Language"
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Telugu</MenuItem>
+                                <MenuItem value={20}>Hindi</MenuItem>
+                                <MenuItem value={30}>Tamil</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                    </Grid>
+                    <Grid xs={12} item >
+                        <TextField
+                            required={true}
+                            className={classes.field}
+                            fullWidth
+                            margin="normal"
+                            value={fname}
+                            onChange={e => setfName(e.target.value)}
+                            placeholder="Full Name"
+                            type="text"
+                            label="Full Name"
+                            variant="standard"
+                        />
+                    </Grid>
+                    <Grid xs={12} item >
+                        <TextField
+                            required={true}
+                            className={classes.field}
+                            fullWidth
+                            margin="normal"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            placeholder="Email"
+                            type="text"
+                            label="Email"
+                            variant="standard"
+                        />
+                    </Grid>
+                    <Grid xs={12} item >
+                        {/* <FormControl
+                            className={classes.field}
+                            fullWidth
+
+                            variant="standard"
+                        >
+                            <InputLabel>Contact Number</InputLabel>
+                            <Input
+                                required={true}
+                                value={phNumber}
+                                onChange={(ph) => { handlePhNumber(ph) }}
+                                name="textmask"
+                                inputComponent={PhoneField}
+                                variant="outlined"
+                                prefix="+1"
+                            />
+                        </FormControl> */}
                         <TextField
                             className={classes.field}
                             fullWidth
                             margin="normal"
-                            value={otp}
-                            onChange={e => setOTP(e.target.value)}
-                            placeholder="OTP"
+                            placeholder="Contact Number"
                             type="text"
-                            label="Enter OTP"
+                            label="Contact Number"
                             variant="standard"
+                            required={true}
+                            value={phNumber}
+                            min={10}
+                            max={10}
+                            onChange={handlePhNumber}
                         />
 
-                    </Grid> : null}
+                    </Grid>
 
-                {isDisplayOTP
-                    ? <><Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={verifyOTP}>Verify OTP</Button>
-                        <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Resend SMS</Button> </>
-                    : <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={sendOTP}>Confirm</Button>}
-            </Grid>
-            <div>{startDate.toString()} - {endDate.toString()}</div>
+                    {isDisplayOTP ?
+                        <Grid xs={12} item >
+                            <TextField
+                                required={true}
+                                className={classes.field}
+                                fullWidth
+                                margin="normal"
+                                value={otp}
+                                onChange={e => setOTP(e.target.value)}
+                                placeholder="OTP"
+                                type="text"
+                                label="Enter OTP"
+                                variant="standard"
+                            />
+
+                        </Grid> : null}
+
+                    {isDisplayOTP
+                        ? <><Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={verifyOTP}>Verify OTP</Button>
+                            <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Resend SMS</Button> </>
+                        : <Button type="submit" style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" >Confirm</Button>}
+                </Grid>
+            </form>
         </Paper>
     );
 }

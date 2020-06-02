@@ -13,14 +13,13 @@ const PujariList = (props) => {
                 const pujaries = resp.data.map(puja => {
                     return new Pujari(puja)
                 })
-                console.log(pujaries[0].name);
                 
                 setPujaries(pujaries)
             })
         } catch (error) {
             throw error
         }
-    }, []);
+    }, [true]);
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
             {pujaries.map((pujari, i) => {

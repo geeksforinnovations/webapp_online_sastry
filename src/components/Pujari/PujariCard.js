@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   action: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     width: "100%",
   },
   chipsGroup: {
@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 export const PujariCard = React.forwardRef((props, ref) => {
   const { pujari, onBook } = props;
   const classes = useStyles();
-  console.log(pujari)
   const [value, setValue] = React.useState(2);
   return (
     <div className={classes.root}>
@@ -67,9 +66,9 @@ export const PujariCard = React.forwardRef((props, ref) => {
           alt="Remy Sharp"
           src="https://picsum.photos/100"
         />
-        <Typography variant="h6" gutterBottom> Experience: 4 Yrs</Typography>
+        <Typography variant="h6" gutterBottom> Experience: {pujari.experience} Yrs</Typography>
         <Box component="fieldset" mb={3} borderColor="transparent">
-          <Typography component="legend">Controlled</Typography>
+          {/* <Typography component="legend">Controlled</Typography> */}
           <Rating
             name="simple-controlled"
             value={pujari.rating}
@@ -94,9 +93,7 @@ export const PujariCard = React.forwardRef((props, ref) => {
         </Typography>
 
         <div className={classes.action}>
-          <Button size="large" color="primary" variant="outlined">
-            See more
-          </Button>
+          
           <Button onClick={()=>onBook(pujari)} size="large" color="primary" variant="outlined">
             Select
           </Button>

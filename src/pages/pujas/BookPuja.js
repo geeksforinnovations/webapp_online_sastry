@@ -86,6 +86,13 @@ function BookPuja(props) {
     }
 
   }
+  const onConfirmUserInfo = (details) => {
+    let {booking} = props
+    let info = {...booking, ...details}
+    //info.pujaId = props.selectedPuja.id
+    debugger;
+    props.setBooking(info)
+  }
 
 
 
@@ -96,7 +103,7 @@ function BookPuja(props) {
       case 1:
         return <PujariList onSelectPujaries={onSelectPujaries} ></PujariList>;
       case 2:
-        return <BookPujaForm onBookingSubmit={onBookingSubmit} ></BookPujaForm>;
+        return <BookPujaForm onConfirm={onConfirmUserInfo} onBookingSubmit={onBookingSubmit} ></BookPujaForm>;
       case 3:
         return <PaymentPage confirmPay={confirmBooking}></PaymentPage>;
       case 4:
@@ -108,8 +115,6 @@ function BookPuja(props) {
 
 
   const onBookingSubmit = (booking) => {
-
-    props.setBooking(booking)
     handleNext()
   }
 
@@ -244,7 +249,8 @@ PropTypes.BookPuja = {};
 
 const mapStateToProps = state => ({
   pujas: state.pujas.availablePujas,
-  booking: state.booking.booking
+  booking: state.booking.booking,
+  selectedPuja: state.booking.selectedPuja
 })
 
 const mapDispatchToProps = dispatch => ({

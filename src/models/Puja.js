@@ -1,5 +1,6 @@
 export default class Puja {
     constructor(puja = {}) {
+        this.id = puja.id || '';
         this.name = puja.name || '';
         this.pujaType = puja.pujaType || '';
         this.description = puja.description || '';
