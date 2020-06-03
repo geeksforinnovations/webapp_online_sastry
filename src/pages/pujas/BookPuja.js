@@ -218,7 +218,7 @@ function BookPuja(props) {
                 >
                   Back
               </Button>
-                {isStepOptional(activeStep) && (
+                {/* {isStepOptional(activeStep) && (
                   <Button
                     variant="contained"
                     color="primary"
@@ -227,7 +227,7 @@ function BookPuja(props) {
                   >
                     Skip
                   </Button>
-                )}
+                )} */}
 
                 <Button
                   variant="contained"

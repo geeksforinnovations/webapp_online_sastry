@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "column",
       padding: "25px",
       alignItems: "center",
+      '&:hover': {
+        background: "#00a1",
+     },
     },
     large: {
       width: theme.spacing(7),
@@ -42,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       margin: theme.spacing(0.5),
     },
+   
   },
   description: {
     overflow: "hidden",
@@ -49,10 +53,23 @@ const useStyles = makeStyles((theme) => ({
     height: "100px",
   },
 }));
-export const PujariCard = React.forwardRef((props, ref) => {
-  const { pujari, onBook } = props;
+export const PujariCard = ((props) => {
+  const { pujari, onSelect, onRemove } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(2);
+  let [selected, setSelected] = React.useState(false)
+
+  const onSelectClick = () => {
+    
+    if(!selected){
+      onSelect(pujari)
+    }else {
+      onRemove(pujari)
+    }
+    setSelected(!selected)
+
+    
+  }
   return (
     <div className={classes.root}>
       <Paper elevation={14}>
@@ -94,8 +111,8 @@ export const PujariCard = React.forwardRef((props, ref) => {
 
         <div className={classes.action}>
           
-          <Button onClick={()=>onBook(pujari)} size="large" color="primary" variant="outlined">
-            Select
+          <Button onClick={onSelectClick} size="large" color="primary" variant={selected ?'contained' :'outlined'}>
+          {selected ? 'Remove': 'Select'}
           </Button>
         </div>
       </Paper>

@@ -12,10 +12,10 @@ export const setPuja = (puja) => {
         puja
     }
 }
-export const setPujari = (pujari) => {
+export const setPujari = (pujaris) => {
     return {
         type: BOOKING.SET_PUJARI,
-        pujari
+        pujaris
     }
 }
 

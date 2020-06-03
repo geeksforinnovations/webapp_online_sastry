@@ -31,9 +31,13 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
     let [otp, setOTP] = useState('')
     let [startDate, setStartDate] = useState(new Date());
     let [endDate, setEndtDate] = useState(new Date());
+    let [emailerr, setEmailErr] = useState(false)
 
     const sendOTP = async (e) => {
         e.preventDefault()
+        if(emailerr){
+            return false;
+        }
 
         const ph = phone(phNumber, 'IND')
         const booking = {
@@ -63,6 +67,9 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
         }
 
     }
+    const IsValidEmail =(str)=> {
+        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str)
+    }
 
     const handleStartDate = (date) => {
         setStartDate(date);
@@ -72,6 +79,11 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
     };
     const handlePhNumber = (e) => {
         setphNumber(e.target.value)
+    }
+    const updateEmail =(email) => {
+        const isValidEmail  = IsValidEmail(email)
+        setEmailErr(!isValidEmail)
+        setEmail(email)
     }
     var theme = useTheme();
 
@@ -175,12 +187,13 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
                     </Grid>
                     <Grid xs={12} item >
                         <TextField
+                        error={emailerr}
                             required={true}
                             className={classes.field}
                             fullWidth
                             margin="normal"
                             value={email}
-                            onChange={e => setEmail(e.target.value)}
+                            onChange={e => updateEmail(e.target.value)}
                             placeholder="Email"
                             type="text"
                             label="Email"
