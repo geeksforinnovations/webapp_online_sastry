@@ -12,22 +12,27 @@ const PujariList = (props) => {
 
     const onPujariSelect = (pujari) => {
         let _pujaries = selectedPujaries;
-        _pujaries.push(pujari)
+        if (_pujaries.length < 3) {
+            _pujaries.push(pujari)
+            setSelected(_pujaries)
+            return true
+        } else {
+            return false
+        }
 
-        setSelected(_pujaries)
     }
-    const onContinue =()=> {
-        if(hasDefault){
-            onSelectPujaries(pujaries.splice(0,3))
-        }else{
-            if(selectedPujaries.length > 0){
+    const onContinue = () => {
+        if (hasDefault) {
+            onSelectPujaries(pujaries.splice(0, 3))
+        } else {
+            if (selectedPujaries.length > 0) {
                 onSelectPujaries(selectedPujaries)
             }
         }
-       
+
     }
 
-    const onRemove =(pujari) => {
+    const onRemove = (pujari) => {
         let _pujaries = selectedPujaries;
         _pujaries = _pujaries.filter(p => p.id != pujari.id)
         setSelected(_pujaries)
@@ -79,15 +84,15 @@ const PujariList = (props) => {
                 :
                 <div>
                     <Typography align="center" variant="h6" gutterBottom>
-                    You can choose upto 3 pujaries and will assign you based on availability</Typography>
+                        You can choose upto 3 pujaries and will assign you based on availability</Typography>
                     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                    
-                    {pujaries.map((pujari, i) => {
-                        return <PujariCard key={`${i}_mjn`} onRemove={onRemove} onSelect={onPujariSelect} pujari={pujari}></PujariCard>
-                    })}
+
+                        {pujaries.map((pujari, i) => {
+                            return <PujariCard key={`${i}_mjn`} onRemove={onRemove} onSelect={onPujariSelect} pujari={pujari}></PujariCard>
+                        })}
+                    </div>
                 </div>
-                </div>
-                
+
             }
 
         </>

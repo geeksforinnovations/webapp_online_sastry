@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       '&:hover': {
         background: "#00a1",
-     },
+      },
     },
     large: {
       width: theme.spacing(7),
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       margin: theme.spacing(0.5),
     },
-   
+
   },
   description: {
     overflow: "hidden",
@@ -60,15 +60,19 @@ export const PujariCard = ((props) => {
   let [selected, setSelected] = React.useState(false)
 
   const onSelectClick = () => {
-    
-    if(!selected){
-      onSelect(pujari)
-    }else {
-      onRemove(pujari)
-    }
-    setSelected(!selected)
 
-    
+    if (!selected) {
+      const isAdded = onSelect(pujari)
+      if (isAdded) {
+        setSelected(!selected)
+      }
+    } else {
+      onRemove(pujari)
+      setSelected(!selected)
+    }
+
+
+
   }
   return (
     <div className={classes.root}>
@@ -110,9 +114,9 @@ export const PujariCard = ((props) => {
         </Typography>
 
         <div className={classes.action}>
-          
-          <Button onClick={onSelectClick} size="large" color="primary" variant={selected ?'contained' :'outlined'}>
-          {selected ? 'Remove': 'Select'}
+
+          <Button onClick={onSelectClick} size="large" color="primary" variant={selected ? 'contained' : 'outlined'}>
+            {selected ? 'Remove' : 'Select'}
           </Button>
         </div>
       </Paper>
