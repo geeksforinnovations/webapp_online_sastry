@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function PujaCard(props) {
-  const { puja, onBook } = props;
+  const { puja, onBook, onSeeMore } = props;
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -81,7 +81,7 @@ export default function PujaCard(props) {
         </Typography>
 
         <div className={classes.action}>
-          <Button size="large" color="primary" variant="outlined">
+          <Button onClick={onSeeMore} size="large" color="primary" variant="outlined">
             See more
           </Button>
           <Button onClick={() => onBook(puja)} size="large" color="primary" variant="outlined">

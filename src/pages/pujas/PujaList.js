@@ -6,7 +6,7 @@ import PujaCard from '../../components/Puja/PujaCard';
 import { connect } from 'react-redux';
 
 const PujaList = (props) => {
-    const { pujas, onSelectPuja, setPujas } = props;
+    const { pujas, onSelectPuja, setPujas, onSeeMore } = props;
 
     useEffect(() => {
         try {
@@ -23,7 +23,7 @@ const PujaList = (props) => {
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
             {pujas.map((puja, i) => {
-                return <PujaCard key={`${i}_jkn`} onBook={onSelectPuja} puja={puja}></PujaCard>
+                return <PujaCard onSeeMore={() => onSeeMore(puja)} key={`${i}_jkn`} onBook={onSelectPuja} puja={puja}></PujaCard>
             })}
         </div>
 

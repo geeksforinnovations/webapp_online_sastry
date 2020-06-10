@@ -32,6 +32,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
     let [startDate, setStartDate] = useState(new Date());
     let [endDate, setEndtDate] = useState(new Date());
     let [emailerr, setEmailErr] = useState(false)
+    let [countryCode , setCountryCode] = useState('USD')
 
     const sendOTP = async (e) => {
         e.preventDefault()
@@ -39,7 +40,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
             return false;
         }
 
-        const ph = phone(phNumber, 'IND')
+        const ph = phone(phNumber,countryCode)
         const booking = {
             languageId: 1,
             pujaStartDate: startDate,
@@ -53,7 +54,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
         setIsDisplay(true)
     }
     const verifyOTP = async () => {
-        const ph = phone(phNumber, 'IND')
+        const ph = phone(phNumber, countryCode)
         try {
             const resp = await APIs.verifyOTP(ph[0], otp)
             if (resp.data.valid == true) {

@@ -21,6 +21,8 @@ import PujariList from "./PujariList";
 import { setBooking, setPujari, setPuja } from "../../actions/bookings.actions";
 import { APIs } from "../../APIs/API";
 import Booking from "../../models/Booking";
+import SuccessPage from "./SuccessPage";
+import PujaInfoModal from "../../components/ShowPujaInfoModal/PujaInfoModal";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -62,6 +64,9 @@ function BookPuja(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
+  let [openSeeMore, setSeeMoreOpen] = React.useState(false)
+  const [piujaToSee , setPujaToSee] = React.useState({})
+  const [order, setOrder] = React.useState({})
   const onSelectPuja = (puja) => {
     props.setPuja(puja)
     handleNext()
@@ -75,6 +80,7 @@ function BookPuja(props) {
     try {
       const book = await Booking.confirm(props.booking, token)
       if (book.data != null) {
+        setOrder(book.data)
         handleNext()
       }
       else {
@@ -93,13 +99,17 @@ function BookPuja(props) {
     debugger;
     props.setBooking(info)
   }
+  const onPujaSeeMore = (puja) => {
+    setPujaToSee(puja)
+    setSeeMoreOpen(true)
+  }
 
 
 
   const getStepContent = (step, handleNext, data) => {
     switch (step) {
       case 0:
-        return <PujaList onSelectPuja={onSelectPuja}> </PujaList>;
+        return <PujaList onSeeMore={onPujaSeeMore} onSelectPuja={onSelectPuja}> </PujaList>;
       case 1:
         return <PujariList onSelectPujaries={onSelectPujaries} ></PujariList>;
       case 2:
@@ -107,7 +117,7 @@ function BookPuja(props) {
       case 3:
         return <PaymentPage confirmPay={confirmBooking}></PaymentPage>;
       case 4:
-        return "Success";
+        return <SuccessPage goToHome={handleReset} order={order}></SuccessPage>;
       default:
         return "Unknown step";
     }
@@ -241,6 +251,8 @@ function BookPuja(props) {
             </div>
           )}
       </div>
+    
+    <PujaInfoModal puja={piujaToSee} toggleModal={()=> {setSeeMoreOpen(!openSeeMore)}} open={openSeeMore}></PujaInfoModal>
     </div>
   );
 }
