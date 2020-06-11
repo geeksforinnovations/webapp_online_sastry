@@ -1,12 +1,13 @@
 import React, { useState, useRef } from "react";
-import { Grid, TextField, Paper, FormControl, InputLabel, Select, MenuItem, Input, makeStyles, Button } from "@material-ui/core";
+import { Grid, TextField, Paper, FormControl, InputLabel, Select, MenuItem, Chip, Input, makeStyles, Button, TextareaAutosize } from "@material-ui/core";
 
 import { useTheme } from "@material-ui/styles";
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
-    DateTimePicker
+    DateTimePicker,
+    DatePicker
 } from '@material-ui/pickers';
 import phone from 'phone'
 import Booking from "../../../models/Booking";
@@ -22,7 +23,7 @@ import { BOOKING } from "../../../actions/actions.constants";
 import { setBooking } from "../../../actions/bookings.actions";
 
 
-export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm }) {
+export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, goBack }) {
 
     let [fname, setfName] = useState("");
     let [phNumber, setphNumber] = useState('')
@@ -32,15 +33,17 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
     let [startDate, setStartDate] = useState(new Date());
     let [endDate, setEndtDate] = useState(new Date());
     let [emailerr, setEmailErr] = useState(false)
-    let [countryCode , setCountryCode] = useState('USD')
+    let [countryCode, setCountryCode] = useState('USD')
+    const [personName, setPersonName] = React.useState([]);
+
 
     const sendOTP = async (e) => {
         e.preventDefault()
-        if(emailerr){
+        if (emailerr) {
             return false;
         }
 
-        const ph = phone(phNumber,countryCode)
+        const ph = phone(phNumber, countryCode)
         const booking = {
             languageId: 1,
             pujaStartDate: startDate,
@@ -68,7 +71,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
         }
 
     }
-    const IsValidEmail =(str)=> {
+    const IsValidEmail = (str) => {
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str)
     }
 
@@ -81,14 +84,31 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
     const handlePhNumber = (e) => {
         setphNumber(e.target.value)
     }
-    const updateEmail =(email) => {
-        const isValidEmail  = IsValidEmail(email)
+    const updateEmail = (email) => {
+        const isValidEmail = IsValidEmail(email)
         setEmailErr(!isValidEmail)
         setEmail(email)
     }
+    const handleChange = (event) => {
+        setPersonName(event.target.value);
+    };
+
     var theme = useTheme();
+    function getStyles(name, personName, theme) {
+        return {
+            fontWeight:
+                personName.indexOf(name) === -1
+                    ? theme.typography.fontWeightRegular
+                    : theme.typography.fontWeightMedium,
+        };
+    }
 
     const useStyles = makeStyles((theme) => ({
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 120,
+            maxWidth: 300,
+        },
         root: {
             width: "600px",
             margin: "auto",
@@ -98,9 +118,31 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
         field: {
             width: "500px",
             margin: '20px 0'
+        },
+        chips: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        chip: {
+            margin: 2,
+        },
+        noLabel: {
+            marginTop: theme.spacing(3),
+        },
+        customArea: {
+            height: `100px`,
+            width: ' 517px',
+            maxWidth: '500px',
+            margin: '0px',
+            minHeight: '100px',
+            fontSize: '16px',
+            marginTop: '10px'
+
         }
     }));
+
     var classes = useStyles();
+
     return (
         <Paper className={classes.root}>
             <form onSubmit={sendOTP}>
@@ -110,7 +152,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
                     alignItems="center">
                     <Grid item xs={12} >
                         <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                            <DateTimePicker
+                            <DatePicker
                                 disablePast={true}
                                 className={classes.field}
                                 disableToolbar
@@ -128,22 +170,29 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
                     </Grid>
 
                     <Grid item xs={12} >
-                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                            <DateTimePicker
-                                minDate={startDate}
-                                disablePast={true}
-                                className={classes.field}
-                                disableToolbar
-                                margin="normal"
-                                //id="date-picker-inline"
-                                label="Puja End Date"
-                                value={endDate}
-                                inputVariant="standard"
-                                onChange={handleEndDate}
-                                fullWidth
-
-                            />
-                        </MuiPickersUtilsProvider>
+                      
+                        <FormControl
+                            className={classes.field}
+                            fullWidth
+                            variant="standard" >
+                            <InputLabel id="demo-simple-select-outlined-label">Times</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-outlined-label"
+                                id="demo-simple-select-outlined"
+                                value={1}
+                                onChange={() => { }}
+                                label="Select Time"
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={1}>Early Mornings</MenuItem>
+                                <MenuItem value={2}>Afternoons</MenuItem>
+                                <MenuItem value={3}>Evenings</MenuItem>
+                                <MenuItem value={4}>Nighst</MenuItem>
+                                <MenuItem value={5}>Late Nights</MenuItem>
+                            </Select>
+                        </FormControl>
 
                     </Grid>
 
@@ -188,7 +237,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
                     </Grid>
                     <Grid xs={12} item >
                         <TextField
-                        error={emailerr}
+                            error={emailerr}
                             required={true}
                             className={classes.field}
                             fullWidth
@@ -235,6 +284,14 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
                         />
 
                     </Grid>
+                    <Grid xs={12} item>
+                        <InputLabel >Additional Notes</InputLabel>
+
+                        <TextareaAutosize className={classes.customArea} rowsMax={4}
+                            placeholder="Additional Info to pujari"
+                            defaultValue=""
+                        />
+                    </Grid>
 
                     {isDisplayOTP ?
                         <Grid xs={12} item >
@@ -252,11 +309,15 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm })
                             />
 
                         </Grid> : null}
+                    <Grid style={{display:'flex', justifyContent:'space-around', width:'500px'}}>
+                        <Button style={{ marginBottom: '20px' }} color="primary" variant="outlined" size="medium" onClick={goBack}>Back</Button>
 
-                    {isDisplayOTP
-                        ? <><Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={verifyOTP}>Verify OTP</Button>
-                            <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Resend SMS</Button> </>
-                        : <Button type="submit" style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" >Confirm</Button>}
+                        {isDisplayOTP
+                            ? <><Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={verifyOTP}>Verify OTP</Button>
+                                <Button style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" onClick={handleNext}>Resend SMS</Button> </>
+                            : <Button type="submit" style={{ marginBottom: '20px' }} color="primary" variant="contained" size="medium" >Confirm</Button>}
+
+                    </Grid>
                 </Grid>
             </form>
         </Paper>

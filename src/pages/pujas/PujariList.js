@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Typography, FormControlLabel, Checkbox, Switch, Button } from '@material-ui/core';
 
 const PujariList = (props) => {
-    const { pujaries, setPujaries, onSelectPujaries } = props;
+    const { pujaries, setPujaries, onSelectPujaries, goBack } = props;
     let [hasDefault, setDefault] = useState(false);
     let [selectedPujaries, setSelected] = useState([])
 
@@ -53,7 +53,13 @@ const PujariList = (props) => {
     }, [true]);
     return (
         <>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', margin:'10px auto', width: '1024px' }}>
+            <Button
+                    variant="outlined" color="primary"
+                    onClick={goBack}
+                >
+                    Back
+              </Button>
                 <FormControlLabel
                     align="center"
                     control={

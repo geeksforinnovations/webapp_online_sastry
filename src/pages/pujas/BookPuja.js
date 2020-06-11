@@ -65,7 +65,7 @@ function BookPuja(props) {
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
   let [openSeeMore, setSeeMoreOpen] = React.useState(false)
-  const [piujaToSee , setPujaToSee] = React.useState({})
+  const [piujaToSee, setPujaToSee] = React.useState({})
   const [order, setOrder] = React.useState({})
   const onSelectPuja = (puja) => {
     props.setPuja(puja)
@@ -93,8 +93,8 @@ function BookPuja(props) {
 
   }
   const onConfirmUserInfo = (details) => {
-    let {booking} = props
-    let info = {...booking, ...details}
+    let { booking } = props
+    let info = { ...booking, ...details }
     //info.pujaId = props.selectedPuja.id
     debugger;
     props.setBooking(info)
@@ -106,16 +106,16 @@ function BookPuja(props) {
 
 
 
-  const getStepContent = (step, handleNext, data) => {
+  const getStepContent = (step) => {
     switch (step) {
       case 0:
         return <PujaList onSeeMore={onPujaSeeMore} onSelectPuja={onSelectPuja}> </PujaList>;
       case 1:
-        return <PujariList onSelectPujaries={onSelectPujaries} ></PujariList>;
+        return <PujariList goBack={handleBack} onSelectPujaries={onSelectPujaries} ></PujariList>;
       case 2:
-        return <BookPujaForm onConfirm={onConfirmUserInfo} onBookingSubmit={onBookingSubmit} ></BookPujaForm>;
+        return <BookPujaForm goBack={handleBack} onConfirm={onConfirmUserInfo} onBookingSubmit={onBookingSubmit} ></BookPujaForm>;
       case 3:
-        return <PaymentPage confirmPay={confirmBooking}></PaymentPage>;
+        return <PaymentPage goBack={handleBack} confirmPay={confirmBooking}></PaymentPage>;
       case 4:
         return <SuccessPage goToHome={handleReset} order={order}></SuccessPage>;
       default:
@@ -200,6 +200,9 @@ function BookPuja(props) {
             return (
               <Step key={label} {...stepProps}>
                 <StepLabel {...labelProps}>{label}</StepLabel>
+                {/* <StepButton onClick={handleStep(index)} completed={completed[index]}>
+              {label}
+            </StepButton> */}
               </Step>
             );
           })}
@@ -208,51 +211,14 @@ function BookPuja(props) {
 
 
       <div>
-        {activeStep === steps.length ? (
+        {activeStep === steps.length ? null : (
           <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
+            {getStepContent(activeStep, handleNext)}
           </div>
-        ) : (
-            <div>
-              {getStepContent(activeStep, handleNext)}
-              <div>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className={classes.button}
-                >
-                  Back
-              </Button>
-                {/* {isStepOptional(activeStep) && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSkip}
-                    className={classes.button}
-                  >
-                    Skip
-                  </Button>
-                )} */}
-
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleNext}
-                  className={classes.button}
-                >
-                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                </Button>
-              </div>
-            </div>
-          )}
+        )}
       </div>
-    
-    <PujaInfoModal puja={piujaToSee} toggleModal={()=> {setSeeMoreOpen(!openSeeMore)}} open={openSeeMore}></PujaInfoModal>
+
+      <PujaInfoModal puja={piujaToSee} toggleModal={() => { setSeeMoreOpen(!openSeeMore) }} open={openSeeMore}></PujaInfoModal>
     </div>
   );
 }
