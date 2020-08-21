@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Grid, TextField, Paper, Chip, Button } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import config from "../../config";
+// import config from "../../config";
 import { Storage, API } from "aws-amplify";
 import { PhotoPicker } from 'aws-amplify-react';
 import { useTheme } from "@material-ui/styles";
@@ -12,7 +12,6 @@ import DateFnsUtils from '@date-io/date-fns';
 // import DateFnsUtils from '@date-io/moment';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 // import { Link } from "react-router-dom";
@@ -26,14 +25,14 @@ import PageTitle from "../../components/PageTitle";
 
 
 export default function NewPuja() {
-  const file = useRef(null);
+  //const file = useRef(null);
   var [name, setName] = useState("");
   let [price, setPrice] = useState('')
   let [time, setTime] = useState('')
   let [about, setAbout] = useState('')
   let [insights, setInsights] = useState('')
-  let [pujaImage, uploadPujaImage] = useState('')
-  const [isLoading, setIsLoading] = useState(false);
+  //let [pujaImage, uploadPujaImage] = useState('')
+  //const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
   const handleDateChange = (date) => {
@@ -56,14 +55,14 @@ export default function NewPuja() {
     });
 
     const getfile = await Storage.get(filename);
-    uploadPujaImage(getfile)
+    //uploadPujaImage(getfile)
     console.log('get', getfile)
 
     return stored.key;
   }
-  function handleFileChange(event) {
-    file.current = event.target.files[0];
-  }
+  // function handleFileChange(event) {
+  //   file.current = event.target.files[0];
+  // }
   async function createPuja() {
     // const puja ={
     //   name,
@@ -87,7 +86,10 @@ export default function NewPuja() {
     }
 
     try {
-      const x = await API.post('pujas', '/pujas', requestData)
+      const resp = await API.post('pujas', '/pujas', requestData)
+      if(resp.error !== undefined){
+        console.error('err',resp);
+      }
     } catch (error) {
       console.log('err', error)
       throw error
@@ -96,26 +98,26 @@ export default function NewPuja() {
 
 
   }
-  async function handleSubmit(event) {
-    //event.preventDefault();
+  // async function handleSubmit(event) {
+  //   //event.preventDefault();
 
-    if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
-      alert(
-        `Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE /
-        1000000} MB.`
-      );
-      return;
-    }
-    try {
-      const s3Result = await s3Upload(file.current)
-      console.log('s3 result is', s3Result)
-      setIsLoading(true);
-    } catch (error) {
-      console.error('er'.error)
-      alert('err')
-    }
+  //   if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
+  //     alert(
+  //       `Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE /
+  //       1000000} MB.`
+  //     );
+  //     return;
+  //   }
+  //   try {
+  //     const s3Result = await s3Upload(file.current)
+  //     console.log('s3 result is', s3Result)
+  //     //setIsLoading(true);
+  //   } catch (error) {
+  //     console.error('er'.error)
+  //     alert('err')
+  //   }
 
-  }
+  // }
   return (
     <>
       <PageTitle title="Pujas" />

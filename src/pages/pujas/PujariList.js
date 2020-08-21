@@ -3,10 +3,10 @@ import Pujari from "../../models/Pujari";
 import { setPujaries } from "../../actions/pujari.actions";
 import { PujariCard } from '../../components/Pujari/PujariCard';
 import { connect } from 'react-redux';
-import { Typography, FormControlLabel, Checkbox, Switch, Button } from '@material-ui/core';
+import { Typography, FormControlLabel, Switch, Button } from '@material-ui/core';
 
 const PujariList = (props) => {
-    const { pujaries, setPujaries, onSelectPujaries, goBack } = props;
+    const { pujaries, onSelectPujaries, goBack , setPujaries} = props;
     let [hasDefault, setDefault] = useState(false);
     let [selectedPujaries, setSelected] = useState([])
 
@@ -34,7 +34,7 @@ const PujariList = (props) => {
 
     const onRemove = (pujari) => {
         let _pujaries = selectedPujaries;
-        _pujaries = _pujaries.filter(p => p.id != pujari.id)
+        _pujaries = _pujaries.filter(p => p.id !== pujari.id)
         setSelected(_pujaries)
     }
 

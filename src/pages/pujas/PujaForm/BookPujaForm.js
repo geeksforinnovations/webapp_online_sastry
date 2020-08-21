@@ -1,26 +1,27 @@
-import React, { useState, useRef } from "react";
-import { Grid, TextField, Paper, FormControl, InputLabel, Select, MenuItem, Chip, Input, makeStyles, Button, TextareaAutosize } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+    Grid, TextField, Paper, FormControl, InputLabel, Select, MenuItem,
+    makeStyles, Button, TextareaAutosize
+} from "@material-ui/core";
 
-import { useTheme } from "@material-ui/styles";
+// import { useTheme } from "@material-ui/styles";
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
-    DateTimePicker,
     DatePicker
 } from '@material-ui/pickers';
 import phone from 'phone'
-import Booking from "../../../models/Booking";
 
 // styles
 // import useStyles from "../styles";
 
 // components
-import PhoneField from "../../../components/PhoneInput/PhoneField";
+// import PhoneField from "../../../components/PhoneInput/PhoneField";
 // import { API } from "aws-amplify";
 import { APIs } from "../../../APIs/API";
-import { BOOKING } from "../../../actions/actions.constants";
-import { setBooking } from "../../../actions/bookings.actions";
+// import { BOOKING } from "../../../actions/actions.constants";
+// import { setBooking } from "../../../actions/bookings.actions";
 
 
 export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, goBack }) {
@@ -34,7 +35,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, g
     let [endDate, setEndtDate] = useState(new Date());
     let [emailerr, setEmailErr] = useState(false)
     let [countryCode, setCountryCode] = useState('IN')
-    const [personName, setPersonName] = React.useState([]);
+    // let [personName, setPersonName] = React.useState([]);
 
 
     const sendOTP = async (e) => {
@@ -54,54 +55,60 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, g
         }
         onConfirm(booking)
         const resp = await APIs.sendOTP(ph[0])
+        if (resp.error !== undefined) {
+            console.error('err', resp);
+        }
         setIsDisplay(true)
     }
     const verifyOTP = async () => {
         const ph = phone(phNumber, countryCode)
         try {
             const resp = await APIs.verifyOTP(ph[0], otp)
-            if (resp.data.valid == true) {
+            if (resp.data.valid === true) {
                 onBookingSubmit()
             } else {
                 alert("enter valid OTP")
             }
             //handleNext()
         } catch (error) {
+            console.error(error);
 
         }
-
     }
     const IsValidEmail = (str) => {
-        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str)
+        return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(str)
     }
 
     const handleStartDate = (date) => {
         setStartDate(date);
     };
-    const handleEndDate = (date) => {
-        setEndtDate(date);
-    };
+    // const handleEndDate = (date) => {
+    //     setEndtDate(date);
+    // };
     const handlePhNumber = (e) => {
         setphNumber(e.target.value)
     }
     const updateEmail = (email) => {
+        setCountryCode('IN')
+        setEndtDate(new Date())
         const isValidEmail = IsValidEmail(email)
         setEmailErr(!isValidEmail)
         setEmail(email)
     }
-    const handleChange = (event) => {
-        setPersonName(event.target.value);
-    };
+    // const handleChange = (event) => {
+    //     console.log(personName);
+    //     setPersonName(event.target.value);
+    // };
 
-    var theme = useTheme();
-    function getStyles(name, personName, theme) {
-        return {
-            fontWeight:
-                personName.indexOf(name) === -1
-                    ? theme.typography.fontWeightRegular
-                    : theme.typography.fontWeightMedium,
-        };
-    }
+    // var theme = useTheme();
+    // function getStyles(name, personName, theme) {
+    //     return {
+    //         fontWeight:
+    //             personName.indexOf(name) === -1
+    //                 ? theme.typography.fontWeightRegular
+    //                 : theme.typography.fontWeightMedium,
+    //     };
+    // }
 
     const useStyles = makeStyles((theme) => ({
         formControl: {
@@ -113,7 +120,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, g
             width: "600px",
             margin: "auto",
             paddingTop: "35px",
-            margin: "45px auto"
+            //margin: "45px auto"
         },
         field: {
             width: "500px",
@@ -170,7 +177,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, g
                     </Grid>
 
                     <Grid item xs={12} >
-                      
+
                         <FormControl
                             className={classes.field}
                             fullWidth
@@ -309,7 +316,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, g
                             />
 
                         </Grid> : null}
-                    <Grid style={{display:'flex', justifyContent:'space-around', width:'500px'}}>
+                    <Grid style={{ display: 'flex', justifyContent: 'space-around', width: '500px' }}>
                         <Button style={{ marginBottom: '20px' }} color="primary" variant="outlined" size="medium" onClick={goBack}>Back</Button>
 
                         {isDisplayOTP

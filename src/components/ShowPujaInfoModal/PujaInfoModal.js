@@ -53,10 +53,10 @@ const DialogActions = withStyles((theme) => ({
 export default function PujaInfoModal({ open, toggleModal, puja }) {
     //const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        toggleModal()
-        //setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     toggleModal()
+    //     //setOpen(true);
+    // };
     const handleClose = () => {
         toggleModal()
         //setOpen(false);

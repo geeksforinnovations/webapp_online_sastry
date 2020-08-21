@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import ReactDOM from 'react-dom';
 // import { loadStripe } from '@stripe/stripe-js';
-import { Grid, TextField, Paper, FormControl, InputLabel, Select, MenuItem, Input, makeStyles, Button, FormLabel } from "@material-ui/core";
-import { APIs } from "../../../APIs/API";
+import { TextField, Button, FormLabel } from "@material-ui/core";
+// import { APIs } from "../../../APIs/API";
 import {
   CardElement,
-  Elements,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
@@ -33,8 +32,8 @@ const CARD_OPTIONS = {
   },
 };
 const CheckoutForm = ({  confirmPay }) => {
-  let [name, setName] = useState("");
-  let [zip, setZip] = useState("")
+  //let [name, setName] = useState("");
+  //let [zip, setZip] = useState("")
   const stripe = useStripe();
   const elements = useElements();
 

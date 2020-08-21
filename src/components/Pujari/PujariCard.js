@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 export const PujariCard = ((props) => {
   const { pujari, onSelect, onRemove } = props;
   const classes = useStyles();
-  const [value, setValue] = React.useState(2);
+  //const [value, setValue] = React.useState(2);
   let [selected, setSelected] = React.useState(false)
 
   const onSelectClick = () => {

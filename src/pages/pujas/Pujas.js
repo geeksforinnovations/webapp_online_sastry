@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {useEffect } from "react";
 import { connect } from 'react-redux'
 import {
   Grid, TableContainer,
   Table, TableBody,
   TableCell, TableHead,
-  TableRow, Paper,
-  Chip, Button
+  TableRow, Paper
 } from "@material-ui/core";
 
-import useStyles from "./styles";
+// import useStyles from "./styles";
 
 // components
 import PageTitle from "../../components/PageTitle";
@@ -20,7 +19,6 @@ import { setPujas } from "../../actions/puja.actions";
 function Pujas(props) {
   //let [pujas, setPujas] = useState([])
   useEffect(() => {
-
     try {
       APIs.getPujas().then(resp => {
         const pujas = resp.data.map(puja => {
@@ -33,7 +31,7 @@ function Pujas(props) {
     }
 
 
-  }, []);
+  });
 
 
 
