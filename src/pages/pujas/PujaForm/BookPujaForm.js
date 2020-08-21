@@ -33,7 +33,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, g
     let [startDate, setStartDate] = useState(new Date());
     let [endDate, setEndtDate] = useState(new Date());
     let [emailerr, setEmailErr] = useState(false)
-    let [countryCode, setCountryCode] = useState('USD')
+    let [countryCode, setCountryCode] = useState('IN')
     const [personName, setPersonName] = React.useState([]);
 
 
