@@ -7,7 +7,7 @@ export class Pujari {
         this.description = pujari.description;
         this.contactNo = pujari.contactNo;
         this.address1 = pujari.address1;
-        this.address2 = this.address2;
+        this.address2 = pujari.address2;
         this.type = pujari.type;
         this.city = pujari.city;
         this.country = pujari.country
