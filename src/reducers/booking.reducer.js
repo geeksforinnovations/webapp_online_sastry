@@ -5,7 +5,8 @@ import Puja from "../models/Puja"
 const initialState = {
     booking: new Booking(),
     selectedPuja: new Puja(),
-    selectedPujaries: []
+    selectedPujaries: [],
+    availableBookings: []
 }
 
 const booking = (state = initialState, action) => {
@@ -33,6 +34,12 @@ const booking = (state = initialState, action) => {
                 selectedPujaries: action.pujaris,
                 booking: { ...state.booking, selectedPujaries: action.pujaris.map(p => p.id) }
             }
+        case BOOKING.SET_BOOKINGS:
+
+        return {
+            ...state,
+            availableBookings: action.bookings
+        }
         default:
             return state
     }

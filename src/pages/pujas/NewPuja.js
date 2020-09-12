@@ -5,17 +5,12 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Storage, API } from "aws-amplify";
 import { PhotoPicker } from 'aws-amplify-react';
 import { useTheme } from "@material-ui/styles";
-// import 'moment'
-// import 'date-fns';
+
 import DateFnsUtils from '@date-io/date-fns';
-// import  moment  from "moment";
-// import DateFnsUtils from '@date-io/moment';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-// import { Link } from "react-router-dom";
-// import classnames from "classnames";
 
 // styles
 import useStyles from "./styles";
@@ -47,7 +42,6 @@ export default function NewPuja() {
   ];
   var classes = useStyles();
   async function s3Upload(file) {
-    debugger
     const filename = `${Date.now()}-${file.name}`;
 
     const stored = await Storage.put(filename, file, {
@@ -79,7 +73,10 @@ export default function NewPuja() {
       requiredThings: '{}',
       pujaType: 'Online',
       type: 'Online',
-      cost: price
+      cost: price,
+      imageId :'f',
+      pujaLanguages:[1,2],
+      pujaLanguageIds:[1,2],
     }
     const requestData = {
       body: puja
@@ -265,38 +262,7 @@ export default function NewPuja() {
             >
               Create
             </Button>
-          </Grid>
-          <Grid>
-            <MuiPickersUtilsProvider utils={DateFnsUtils} >
-              <Grid container justify="space-around">
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  id="date-picker-inline"
-                  label="Date picker inline"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                />
-                
-                <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Date picker dialog"
-          format="MM/dd/yyyy"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-              </Grid>
-            </MuiPickersUtilsProvider>
-          </Grid>
+          </Grid>        
         </Grid>
       </Paper>
     </>

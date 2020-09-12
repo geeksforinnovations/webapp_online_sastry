@@ -11,9 +11,9 @@ export default {
     },
     cognito: {
       REGION: "us-east-1",
-      USER_POOL_ID: "us-east-1_coVPXKLPD",
-      APP_CLIENT_ID: "4roh06r403pci87qfo0j6ipuks",
-      IDENTITY_POOL_ID: "us-east-1:f59389b7-b99d-4da9-95b8-185eb0353608"
+      USER_POOL_ID: "us-east-1_2qSMDdMNu",
+      APP_CLIENT_ID: "2c77dfhjgk2v9grrsa7jnnksvd",
+      IDENTITY_POOL_ID: "us-east-1:7411fb38-f0d1-4a44-8f51-c9dcd321f1c1"
     },
     MAX_ATTACHMENT_SIZE:1000000
   };

@@ -24,3 +24,10 @@ export const clearBooking = () => {
         type: BOOKING.CLEAR
     }
 }
+
+export const setBookings = (bookings) => {
+    return {
+        type: BOOKING.SET_BOOKINGS,
+        bookings
+    }
+}

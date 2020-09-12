@@ -8,6 +8,8 @@ import {
   Tab,
   TextField,
   Fade,
+  MenuItem,
+  InputAdornment,
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import classnames from "classnames";
@@ -20,10 +22,11 @@ import useStyles from "./styles";
 import google from "../../images/google.svg";
 
 // context
-import { useUserDispatch, loginUser } from "../../context/UserContext";
+import { useUserDispatch, loginUser, createUser, confirmUser, useUserState } from "../../context/UserContext";
 
 function Login(props) {
   var classes = useStyles();
+  var { hasChallege } = useUserState()
 
   // global
   var userDispatch = useUserDispatch();
@@ -31,17 +34,19 @@ function Login(props) {
   // local
   var [isLoading, setIsLoading] = useState(false);
   var [error, setError] = useState(null);
-  var [activeTabId, setActiveTabId] = useState(0);
-  var [nameValue, setNameValue] = useState("");
-  var [loginValue, setLoginValue] = useState("");
-  var [passwordValue, setPasswordValue] = useState("");
+  var [activeTabId, setActiveTabId] = useState(1);
+  // var [nameValue, setNameValue] = useState("");
+  const [phone, setPhone] = useState("8886011443")
+  var [loginValue, setLoginValue] = useState("manikumarkv@hotmail.com");
+  var [passwordValue, setPasswordValue] = useState("manikumar");
+  const [code, setCode] = useState('')
 
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
         {/* <img src={logo} alt="logo" className={classes.logotypeImage} /> */}
         <Typography className={classes.logotypeText}>Online Pujari Services</Typography>
-    </div>
+      </div>
       <div className={classes.formContainer}>
         <div className={classes.form}>
           <Tabs
@@ -107,27 +112,27 @@ function Login(props) {
                 {isLoading ? (
                   <CircularProgress size={26} className={classes.loginLoader} />
                 ) : (
-                  <Button
-                    disabled={
-                      loginValue.length === 0 || passwordValue.length === 0
-                    }
-                    onClick={() =>
-                      loginUser(
-                        userDispatch,
-                        loginValue,
-                        passwordValue,
-                        props.history,
-                        setIsLoading,
-                        setError,
-                      )
-                    }
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                  >
-                    Login
-                  </Button>
-                )}
+                    <Button
+                      disabled={
+                        loginValue.length === 0 || passwordValue.length === 0
+                      }
+                      onClick={() =>
+                        loginUser(
+                          userDispatch,
+                          loginValue,
+                          passwordValue,
+                          props.history,
+                          setIsLoading,
+                          setError,
+                        )
+                      }
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                    >
+                      Login
+                    </Button>
+                  )}
                 <Button
                   color="primary"
                   size="large"
@@ -148,24 +153,27 @@ function Login(props) {
               </Typography>
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Something is wrong with your login or password :(
+                {error}
                 </Typography>
               </Fade>
               <TextField
                 id="name"
                 InputProps={{
+                  startAdornment: <InputAdornment position="start">+91</InputAdornment>,
                   classes: {
                     underline: classes.textFieldUnderline,
                     input: classes.textField,
                   },
                 }}
-                value={nameValue}
-                onChange={e => setNameValue(e.target.value)}
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
                 margin="normal"
-                placeholder="Full Name"
-                type="email"
+                placeholder="Phone Number"
+                type="text"
                 fullWidth
-              />
+              >
+                
+              </TextField>
               <TextField
                 id="email"
                 InputProps={{
@@ -196,15 +204,67 @@ function Login(props) {
                 type="password"
                 fullWidth
               />
+
               <div className={classes.creatingButtonContainer}>
                 {isLoading ? (
                   <CircularProgress size={26} />
                 ) : (
+                    <Button
+                      onClick={() =>
+                        createUser(
+                          userDispatch,
+                          phone,
+                          loginValue,
+                          passwordValue,
+                          props.history,
+                          setIsLoading,
+                          setError,
+                        )
+                      }
+                      disabled={
+                        loginValue.length === 0 ||
+                        passwordValue.length === 0 ||
+                        phone.length === 0
+                      }
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      className={classes.createAccountButton}
+                    >
+                      Create your account
+                    </Button>
+                  )}
+              </div>
+              <div className={classes.formDividerContainer}>
+                <div className={classes.formDivider} />
+                {/* <Typography className={classes.formDividerWord}>or</Typography> */}
+                <div className={classes.formDivider} />
+              </div>
+              {hasChallege == true ?
+
+                <div >
+                  <TextField
+                    id="code"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    value={code}
+                    onChange={e => setCode(e.target.value)}
+                    margin="normal"
+                    placeholder="Code"
+                    type="text"
+                    fullWidth
+                  />
                   <Button
                     onClick={() =>
-                      loginUser(
+                      confirmUser(
                         userDispatch,
                         loginValue,
+                        code,
                         passwordValue,
                         props.history,
                         setIsLoading,
@@ -212,9 +272,7 @@ function Login(props) {
                       )
                     }
                     disabled={
-                      loginValue.length === 0 ||
-                      passwordValue.length === 0 ||
-                      nameValue.length === 0
+                      code.length === 0
                     }
                     size="large"
                     variant="contained"
@@ -222,16 +280,12 @@ function Login(props) {
                     fullWidth
                     className={classes.createAccountButton}
                   >
-                    Create your account
+                    Verify Email
                   </Button>
-                )}
-              </div>
-              <div className={classes.formDividerContainer}>
-                <div className={classes.formDivider} />
-                <Typography className={classes.formDividerWord}>or</Typography>
-                <div className={classes.formDivider} />
-              </div>
-              <Button
+                </div>
+                : null}
+
+              {/* <Button
                 size="large"
                 className={classnames(
                   classes.googleButton,
@@ -240,7 +294,7 @@ function Login(props) {
               >
                 <img src={google} alt="google" className={classes.googleIcon} />
                 &nbsp;Sign in with Google
-              </Button>
+              </Button> */}
             </React.Fragment>
           )}
         </div>

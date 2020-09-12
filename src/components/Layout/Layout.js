@@ -16,6 +16,10 @@ import Pujas from "../../pages/pujas"
 // context
 import { useLayoutState } from "../../context/LayoutContext";
 import NewPuja from "../../pages/pujas/NewPuja";
+import PujariProfile from "../../pages/profile/pujariProfile/pujariProfile";
+import PujariList from "../../pages/pujaris/pujariList/pujariList";
+import PujariApprovals from "../../pages/admin/pujaris/approvals";
+import AdminBookings from "../../pages/bookings/bookings";
 
 function Layout(props) {
   var classes = useStyles();
@@ -36,8 +40,12 @@ function Layout(props) {
           <div className={classes.fakeToolbar} />
           <Switch>
             <Route path="/app/dashboard" component={Dashboard} />
-            <Route path="/app/pujas/new" component={NewPuja} />
+            <Route path="/app/approvals" component={PujariApprovals} />
+            <Route path="/app/newpuja" component={NewPuja} />
             <Route path="/app/pujas" component={Pujas} />
+            <Route path="/app/pujariprofile" component={PujariProfile} />
+            <Route path="/app/pujaries" component={PujariList} />
+            <Route path="/app/bookings" component={AdminBookings} />
             
           </Switch>
         </div>

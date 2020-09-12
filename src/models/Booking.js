@@ -1,4 +1,5 @@
 import { API } from "aws-amplify";
+import Puja from "./Puja";
 
 class Booking {
     constructor(booking = {}) {
@@ -14,6 +15,7 @@ class Booking {
         this.email = booking.email || null
         this.phone = booking.phone || null
         this.pujaType = booking.pujaType || 'Online'
+        this.puja = new Puja(booking.puja);
     }
 
     static confirm(booking, token){
@@ -24,6 +26,14 @@ class Booking {
             }
         }
         return API.post('payments', `/bookings`, init)
+    }
+
+    static getAll () {
+        return API.get('bookings', '/bookings')
+    }
+
+    static getById(id) {
+        return API.get('bookings', `/bookings/${id}`)
     }
 
 }

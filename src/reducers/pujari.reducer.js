@@ -5,7 +5,7 @@ const initialState = {
     availablePujaries: []
 }
 
-const pujas = (state = initialState, action) => {
+const pujaries = (state = initialState, action) => {
     switch (action.type) {
         case PUJARI.SET:
             return {
@@ -25,4 +25,4 @@ const pujas = (state = initialState, action) => {
     }
 }
 
-export default pujas
+export default pujaries

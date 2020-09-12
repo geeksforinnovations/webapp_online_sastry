@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Puja from "../../models/Puja";
 import { APIs } from "../../APIs/API";
 import { setPujas } from "../../actions/puja.actions";
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 const PujaList = (props) => {
     const { pujas, onSelectPuja, onSeeMore, setPujas } = props;
+    const [page, setPage] = useState('1')
 
     useEffect(() => {
         try {
@@ -19,7 +20,7 @@ const PujaList = (props) => {
         } catch (error) {
             throw error
         }
-    },[true]);
+    },[page]);
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
             {pujas.map((puja, i) => {

@@ -23,6 +23,10 @@ export class Pujari {
         //return []
         return this.PujariLanguages.map(lang => lang.Language.name)
     }
+
+    get FullName () {
+        return `${this.firstName} ${this.lastName}`
+    }
     static getAll() {
         return API.get('pujaries', '/pujaris')
     }
@@ -33,16 +37,23 @@ export class Pujari {
     get name() {
         return `${this.firstName} ${this.lastName}`
     }
+    static toList(array) {
+        return array.map(pujari=> new Pujari(pujari))
+    }
 
 
     create() {
         const body = {}
-        return API.post('pujaries', '/pujaries', body)
+        return API.post('pujaries', '/pujaris', body)
     }
 
-    update() {
-        const body = {}
-        return API.patch('pujaries', '/pujaries', body)
+    updateStatus(status) {
+        console.log('st', status);
+        const init = {
+            body:{status: status}
+        }
+        const body = {status: status}
+        return API.post('pujaries', `/updatePujari/${this.id}`, init)
     }
 }
 

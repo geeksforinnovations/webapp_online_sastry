@@ -12,6 +12,12 @@ function userReducer(state, action) {
       return { ...state, isAuthenticated: false };
     case "LOGIN_FAILURE":
         return { ...state, isAuthenticated: false };
+    case "SIGNUP_CHALLENGE": {
+      return {...state, hasChallege: true}
+    }
+    case "CHALLENGE_SUCCESS" : {
+      return {...state, hasChallege: false}
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -50,7 +56,7 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
+export { UserProvider, useUserState, useUserDispatch, loginUser, signOut, createUser, confirmUser };
 
 // ###########################################################
 
@@ -67,14 +73,14 @@ async function loginUser(
 
   if (!!login && !!password) {
     try {
-      //const user = await Auth.signIn(login, password);
-      //const result = await Auth.completeNewPassword(user,'manikumar')
-     // console.log('login user data', user)
-     // alert("user logged in");
+      const user = await Auth.signIn(login, password);
+     // const result = await Auth.completeNewPassword(user,'manikumar')
+      console.log('login user data', user)
+     alert("user logged in");
       dispatch({ type: "LOGIN_SUCCESS" });
       setError(null);
       setIsLoading(false);
-      history.push("/app/pujas/new");
+      history.push("/app/pujas");
     } catch (error) {
       console.error("err is", error);
       dispatch({ type: "LOGIN_FAILURE" });
@@ -108,3 +114,65 @@ async function signOut(dispatch, history) {
   }
  
 }
+
+async function createUser(dispatch, phone,
+  login,
+  password,
+  history,
+  setIsLoading,
+  setError) {
+    try {
+      try {
+        const result = await Auth.signUp({
+            username : login,
+            password,
+            attributes: {
+                email : login,          // optional
+                phone_number : '+91'+phone,   // optional - E.164 number convention
+                // other custom attributes 
+            }
+        });
+
+        if(result.userConfirmed == false) {
+          dispatch({ type: "SIGNUP_CHALLENGE" });
+        }
+        debugger
+
+
+        console.log('user', result);
+    } catch (error) {
+      if(error.code == "UsernameExistsException") {
+        setError(error.message)
+      }
+      debugger
+        console.log('error signing up:', error);
+    }
+
+     // dispatch({ type: "LOGIN_SUCCESS" });
+     // setError(null);
+    //  setIsLoading(false);
+     // history.push("/app/pujariprofile");
+    } catch (error) {
+      console.error("err is", error);
+      dispatch({ type: "LOGIN_FAILURE" });
+      setError(true);
+      setIsLoading(false);
+    }
+  }
+
+  async function confirmUser(dispatch, username, code,
+    history,
+    setIsLoading,
+    setError) {
+
+      try {
+        await Auth.confirmSignUp(username, code);
+         dispatch({ type: "LOGIN_SUCCESS" });
+     setError(null);
+     setIsLoading(false);
+     history.push("/app/pujariprofile");
+      } catch (error) {
+          console.log('error confirming sign up', error);
+      }
+
+    }

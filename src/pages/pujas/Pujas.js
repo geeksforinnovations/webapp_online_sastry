@@ -4,7 +4,7 @@ import {
   Grid, TableContainer,
   Table, TableBody,
   TableCell, TableHead,
-  TableRow, Paper
+  TableRow, Paper, Button
 } from "@material-ui/core";
 
 // import useStyles from "./styles";
@@ -14,7 +14,6 @@ import PageTitle from "../../components/PageTitle";
 import Puja from "../../models/Puja";
 import { APIs } from "../../APIs/API";
 import { setPujas } from "../../actions/puja.actions";
-
 
 function Pujas(props) {
   //let [pujas, setPujas] = useState([])
@@ -31,15 +30,17 @@ function Pujas(props) {
     }
 
 
-  });
+  },[true]);
 
+  
 
+const button = <Button onClick={()=> {alert(1)}}>s</Button>
 
   return (
     <>
-      <PageTitle title="Pujas" />
+      <PageTitle title="Pujas" button={button}/>
       <Paper >
-        <Grid lg container spacing={4}>
+        <Grid container spacing={4}>
           <Grid item md={12}>
             <TableContainer component={Paper}>
               <Table aria-label="simple table">

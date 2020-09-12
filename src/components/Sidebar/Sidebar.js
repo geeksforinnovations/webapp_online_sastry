@@ -30,23 +30,44 @@ import {
 } from "../../context/LayoutContext";
 
 const structure = [
-  { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
+  { id: 0, 
+    label: "Admin Dashboard", 
+    link: "/app/dashboard", 
+    icon: <HomeIcon /> },
   {
     id: 1,
-    label: "Typography",
-    link: "/app/typography",
+    label: "Pujari Approvals",
+    link: "/app/approvals",
     icon: <TypographyIcon />,
   },
   {
-    id: 1,
-    label: "Manage Pujas",
+    id: 2,
+    label: "Pujas",
     link: "/app/pujas",
     icon: <TypographyIcon />,
   },
   {
-    id: 1,
+    id: 3,
+    label: "Pujaries",
+    link: "/app/pujaries",
+    icon: <TypographyIcon />,
+  },
+  {
+    id: 4,
     label: "New Pujas",
-    link: "/app/pujas/new",
+    link: "/app/newpuja",
+    icon: <TypographyIcon />,
+  },
+  {
+    id: 5,
+    label: "Pujari Profile",
+    link: "/app/pujariprofile",
+    icon: <TypographyIcon />,
+  },
+  {
+    id: 6,
+    label: "Bookings",
+    link: "/app/bookings",
     icon: <TypographyIcon />,
   },
   // { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },

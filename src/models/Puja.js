@@ -8,7 +8,8 @@ export default class Puja {
         this.timeInHrs = puja.timeInHrs || '';
         this.cost = puja.cost || ''
         this.requiredThings = puja.requiredThings || ''
-        this.pujaLanguages = puja.PujaLanguages || []
+        this.pujaLanguages = puja.PujaLanguages || [];
+        this.imageId = puja.imageId || 'test as its not null in db';
 
     }
 
