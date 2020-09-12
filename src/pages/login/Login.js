@@ -37,7 +37,7 @@ function Login(props) {
   var [activeTabId, setActiveTabId] = useState(1);
   // var [nameValue, setNameValue] = useState("");
   const [phone, setPhone] = useState("8886011443")
-  var [loginValue, setLoginValue] = useState("manikumarkv@hotmail.com");
+  var [loginValue, setLoginValue] = useState("manikumarkv@gmail.com");
   var [passwordValue, setPasswordValue] = useState("manikumar");
   const [code, setCode] = useState('')
 
