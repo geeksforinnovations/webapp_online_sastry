@@ -34,7 +34,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, g
     let [startDate, setStartDate] = useState(new Date());
     let [endDate, setEndtDate] = useState(new Date());
     let [emailerr, setEmailErr] = useState(false)
-    let [countryCode, setCountryCode] = useState('IN')
+    let [countryCode, setCountryCode] = useState('US')
     // let [personName, setPersonName] = React.useState([]);
 
 
@@ -89,7 +89,7 @@ export default function BookPujaForm({ handleNext, onBookingSubmit, onConfirm, g
         setphNumber(e.target.value)
     }
     const updateEmail = (email) => {
-        setCountryCode('IN')
+        setCountryCode('US')
         setEndtDate(new Date())
         const isValidEmail = IsValidEmail(email)
         setEmailErr(!isValidEmail)
